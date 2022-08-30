@@ -1,0 +1,18 @@
+<nav>
+    <div>
+        <a href="/">SHARE-ASSO</a>
+        <div>
+            {% if app.user %}
+                <a href="/profil">Mon profil</a>
+                <a href="/logout">Logout</a>
+                {% if is_granted("ROLE_ADMIN") %}
+                    <a href="#">Admin</a>
+                    <a href="#">API Platform</a>
+                {% endif %}
+            {% else %}
+                <a href="/login">Login</a>
+                <a href="#">Register</a>
+            {% endif %}
+        </div>
+    </div>
+</nav>

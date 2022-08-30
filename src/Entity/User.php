@@ -40,6 +40,16 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     private $asso;
 
+    /**
+     * @ORM\Column(type="string", length=50, nullable=true)
+     */
+    private $user_firstname;
+
+    /**
+     * @ORM\Column(type="string", length=50, nullable=true)
+     */
+    private $user_lastname;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -137,6 +147,30 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setAsso(?Association $asso): self
     {
         $this->asso = $asso;
+
+        return $this;
+    }
+
+    public function getUserFirstname(): ?string
+    {
+        return $this->user_firstname;
+    }
+
+    public function setUserFirstname(?string $user_firstname): self
+    {
+        $this->user_firstname = $user_firstname;
+
+        return $this;
+    }
+
+    public function getUserLastname(): ?string
+    {
+        return $this->user_lastname;
+    }
+
+    public function setUserLastname(?string $user_lastname): self
+    {
+        $this->user_lastname = $user_lastname;
 
         return $this;
     }
