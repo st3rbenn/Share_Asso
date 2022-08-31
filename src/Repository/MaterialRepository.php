@@ -21,7 +21,7 @@ class MaterialRepository extends ServiceEntityRepository
         parent::__construct($registry, Material::class);
     }
 
-    public function add(Material $entity, bool $flush = false): void
+    public function add(Material $entity, bool $flush = true): void
     {
         $this->getEntityManager()->persist($entity);
 
@@ -30,7 +30,7 @@ class MaterialRepository extends ServiceEntityRepository
         }
     }
 
-    public function remove(Material $entity, bool $flush = false): void
+    public function remove(Material $entity, bool $flush = true): void
     {
         $this->getEntityManager()->remove($entity);
 

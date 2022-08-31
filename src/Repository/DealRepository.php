@@ -21,7 +21,7 @@ class DealRepository extends ServiceEntityRepository
         parent::__construct($registry, Deal::class);
     }
 
-    public function add(Deal $entity, bool $flush = false): void
+    public function add(Deal $entity, bool $flush = true): void
     {
         $this->getEntityManager()->persist($entity);
 
@@ -30,7 +30,7 @@ class DealRepository extends ServiceEntityRepository
         }
     }
 
-    public function remove(Deal $entity, bool $flush = false): void
+    public function remove(Deal $entity, bool $flush = true): void
     {
         $this->getEntityManager()->remove($entity);
 
