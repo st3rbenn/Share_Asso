@@ -5,10 +5,12 @@ namespace App\Controller;
 use App\Entity\User;
 use App\Form\RegisterType;
 use App\Repository\UserRepository;
+use App\Repository\AssociationRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 /**
  * @Route("/user")
@@ -26,23 +28,28 @@ class UserController extends AbstractController
     }
 
     /**
-     * @Route("/new", name="app_user_new", methods={"GET", "POST"})
+     * @Route("/{id}/new", name="app_user_new", requirements={"id"="\d+"}, methods={"GET", "POST"})
      */
-    public function new(Request $request, UserRepository $userRepository): Response
+    public function new(Request $request, UserRepository $userRepository, AssociationRepository $associationRepository,UserPasswordHasherInterface $userPasswordHasherInterface, int $id): Response
     {
         $user = new User();
+        $user->setAsso($associationRepository->find($id));
         $form = $this->createForm(RegisterType::class, $user);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $userRepository->add($user, true);
+            $user->setPassword($userPasswordHasherInterface->hashPassword($user, $user->getPassword()));
 
-            return $this->redirectToRoute('app_user_index', [], Response::HTTP_SEE_OTHER);
+            $userRepository->add($user, true);
+            $this->addFlash('success', 'Votre compte a bien été créé');
+
+            return $this->redirectToRoute('login', [], Response::HTTP_SEE_OTHER);
         }
 
         return $this->renderForm('user/new.html.twig', [
             'user' => $user,
             'form' => $form,
+            'id' => $id,
         ]);
     }
 
