@@ -45,7 +45,7 @@ class RegisterType extends AbstractType
             'constraints' => [
                 new Regex([
                     'pattern' => '/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/',
-                    'message' => 'Le mot de passe doit contenir au moins une majuscule, une minucsule, un chiffre et 8 caractères'
+                    'message' => 'Le mot de passe doit contenir au moins une majuscule, une minucsule, un chiffre, aucun caractère spécial et 8 caractères'
                 ])
             ],
         ])
