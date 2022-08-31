@@ -1,4 +1,46 @@
-{{ form_start(form) }}
-    {{ form_widget(form) }}
-    <button class="btn">{{ button_label|default('Save') }}</button>
-{{ form_end(form) }}
+<form class="space-y-6" action="#" method="POST">
+        <div class="bg-white px-4 py-5 shadow sm:rounded-lg sm:p-6">
+            <div class="md:grid md:grid-cols-3 md:gap-6">
+                <div class="md:col-span-1">
+                    <h3 class="text-lg font-medium leading-6 text-gray-900">Inscription</h3>
+                    <p class="mt-1 text-sm text-gray-500">Bienvenue sur ShareAsso, la platforme d'échange entre associations</p>
+                </div>
+                <div class="mt-5 md:col-span-2 md:mt-0">
+                    <div class="grid grid-cols-6 gap-6">
+                        <div class="col-span-6 sm:col-span-3">
+                            {{ form_label(form.user_firstname) }}
+                            {{ form_errors(form.user_firstname) }}
+                            {{ form_widget(form.user_firstname) }}
+                        </div>
+
+                        <div class="col-span-6 sm:col-span-3">
+                            {{ form_label(form.user_lastname) }}
+                            {{ form_errors(form.user_lastname) }}
+                            {{ form_widget(form.user_lastname) }}
+                        </div>
+
+                        <div class="col-span-6 sm:col-span-4">
+                            {{ form_label(form.email) }}
+                            {{ form_errors(form.email) }}
+                            {{ form_widget(form.email) }}
+                        </div>
+                        <div class="col-span-6 sm:col-span-4">
+                            {{ form_label(form.password.first) }}
+                            {{ form_errors(form.password.first) }}
+                            {{ form_widget(form.password.first) }}
+                        </div>
+
+                        <div class="col-span-6 sm:col-span-4">
+                            {{ form_label(form.password.second) }}
+                            {{ form_errors(form.password.second) }}
+                            {{ form_widget(form.password.second) }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        <div class="flex justify-end mt-4">
+            {{ form_widget(form.submit) }}
+        </div>
+    </div>
+</form>
