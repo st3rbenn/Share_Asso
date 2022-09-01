@@ -14,4 +14,14 @@
     Vous ne servez pas d'un barnum? Louez-le à d'autres associations !!</p>
 </div>
 
+    <ul>
+        {% for material in materials %}
+            <li>
+                <a href="{{ path('app_material_show', {'id': material.id}) }}">{{ material.materialName }}</a>
+                <img src={{material.materialImg}}>
+            </li>
+        {% endfor %}
+    </ul>
+    
+
 {% endblock %}
