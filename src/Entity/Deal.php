@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\DealRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * @ORM\Entity(repositoryClass=DealRepository::class)
@@ -18,11 +19,17 @@ class Deal
     private $id;
 
     /**
+     * @var \DateTime $deal_createdat
+     * 
+     * @Gedmo\Timestampable(on="create")
      * @ORM\Column(type="datetime", nullable=true)
      */
     private $deal_createdat;
 
     /**
+     * @var \DateTime $deal_updatedat
+     * 
+     * @Gedmo\Timestampable(on="update")
      * @ORM\Column(type="datetime", nullable=true)
      */
     private $deal_updatedat;
@@ -47,24 +54,24 @@ class Deal
         return $this->deal_createdat;
     }
 
-    public function setDealCreatedat(?\DateTimeInterface $deal_createdat): self
-    {
-        $this->deal_createdat = $deal_createdat;
+    // public function setDealCreatedat(?\DateTimeInterface $deal_createdat): self
+    // {
+    //     $this->deal_createdat = $deal_createdat;
 
-        return $this;
-    }
+    //     return $this;
+    // }
 
     public function getDealUpdatedat(): ?\DateTimeInterface
     {
         return $this->deal_updatedat;
     }
 
-    public function setDealUpdatedat(?\DateTimeInterface $deal_updatedat): self
-    {
-        $this->deal_updatedat = $deal_updatedat;
+    // public function setDealUpdatedat(?\DateTimeInterface $deal_updatedat): self
+    // {
+    //     $this->deal_updatedat = $deal_updatedat;
 
-        return $this;
-    }
+    //     return $this;
+    // }
 
     public function getMaterial(): ?Material
     {
