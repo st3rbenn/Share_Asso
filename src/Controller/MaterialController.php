@@ -52,7 +52,7 @@ class MaterialController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="app_material_show", methods={"GET"})
+     * @Route("/{id}", name="app_material_show", requirements={"id"="\d+"}, methods={"GET"})
      */
     public function show(Material $material): Response
     {
