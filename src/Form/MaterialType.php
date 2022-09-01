@@ -35,7 +35,7 @@ class MaterialType extends AbstractType
             ])
 
             ->add('material_img', FileType::class, [
-                'required' => true,
+                'required' => false,
                 'data_class' => null,
                 'data' => null,
                 'attr' => [
