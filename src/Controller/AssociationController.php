@@ -37,7 +37,8 @@ class AssociationController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $associationRepository->add($association, true);
 
-            return $this->redirectToRoute('app_association_index', [], Response::HTTP_SEE_OTHER);
+
+            return $this->redirectToRoute('app_user_new', ['id' => $association->getId()], Response::HTTP_SEE_OTHER);
         }
 
         return $this->renderForm('association/new.html.twig', [

@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Material;
 use App\Form\MaterialType;
+use App\Repository\AssociationRepository;
 use App\Repository\MaterialRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -26,16 +27,18 @@ class MaterialController extends AbstractController
     }
 
     /**
-     * @Route("/new", name="app_material_new", methods={"GET", "POST"})
+     * @Route("/new", name="app_material_new", requirements={"id"="\d+"}, methods={"GET", "POST"})
      */
-    public function new(Request $request, MaterialRepository $materialRepository): Response
+    public function new(Request $request, MaterialRepository $materialRepository, AssociationRepository $associationRepository, int $id): Response
     {
         $material = new Material();
+        $material->setAsso($associationRepository->find($id));
         $form = $this->createForm(MaterialType::class, $material);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $materialRepository->add($material, true);
+            $this->addFlash('success', 'Votre matériel a bien été ajouté');
 
             return $this->redirectToRoute('app_material_index', [], Response::HTTP_SEE_OTHER);
         }
@@ -43,6 +46,7 @@ class MaterialController extends AbstractController
         return $this->renderForm('material/new.html.twig', [
             'material' => $material,
             'form' => $form,
+            'id' => $id,
         ]);
     }
 
