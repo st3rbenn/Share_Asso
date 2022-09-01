@@ -21,32 +21,33 @@ class MaterialController extends AbstractController
      */
     public function index(MaterialRepository $materialRepository): Response
     {
+        $materials = $materialRepository->findAll();
         return $this->render('material/index.html.twig', [
-            'materials' => $materialRepository->findAll(),
+            'materials' => $materials,
         ]);
     }
 
     /**
-     * @Route("/new", name="app_material_new", requirements={"id"="\d+"}, methods={"GET", "POST"})
+     * @Route("/new", name="app_material_new", methods={"GET", "POST"})
      */
-    public function new(Request $request, MaterialRepository $materialRepository, AssociationRepository $associationRepository, int $id): Response
+    public function new(Request $request, MaterialRepository $materialRepository, AssociationRepository $associationRepository): Response
     {
         $material = new Material();
-        $material->setAsso($associationRepository->find($id));
+        
         $form = $this->createForm(MaterialType::class, $material);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $material->setAsso($this->getUser()->getAsso());
             $materialRepository->add($material, true);
             $this->addFlash('success', 'Votre matériel a bien été ajouté');
 
-            return $this->redirectToRoute('app_material_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('app_association_index', [], Response::HTTP_SEE_OTHER);
         }
 
         return $this->renderForm('material/new.html.twig', [
             'material' => $material,
             'form' => $form,
-            'id' => $id,
         ]);
     }
 
