@@ -14,6 +14,7 @@
     </head>
     <body style="min-height: 100vh; background-color: #FFF">
         {{include ('partials/_home_header.html.twig')}}
+        <div id="searchBar">{% block searchBar %}{% endblock %}</div>
         {% block body %}{% endblock %}
     </body>
 </html>
