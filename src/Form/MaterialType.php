@@ -21,6 +21,7 @@ class MaterialType extends AbstractType
                 'required' => true,
                 'attr' => [
                     'placeholder' => 'Nom du matériel',
+                    'class' => 'mt-2 appearance-none text-slate-900 bg-white rounded-md block w-full px-3 h-10 shadow-sm sm:text-sm focus:outline-none placeholder:text-slate-400 focus:ring-2 focus:ring-sky-500 ring-1 ring-slate-200'
                 ],
             ])
 
@@ -29,6 +30,7 @@ class MaterialType extends AbstractType
                 'required' => true,
                 'attr' => [
                     'placeholder' => 'Description du matériel',
+                    'class' => 'mt-2 appearance-none text-slate-900 bg-white rounded-md block w-full px-3 h-10 shadow-sm sm:text-sm focus:outline-none placeholder:text-slate-400 focus:ring-2 focus:ring-sky-500 ring-1 ring-slate-200'
                 ],
             ])
 
@@ -37,7 +39,7 @@ class MaterialType extends AbstractType
                 'data_class' => null,
                 'data' => null,
                 'attr' => [
-                    'class' => 'form-control m-2',
+                    'class' => 'mt-2 appearance-none text-slate-900 bg-white rounded-md block w-full px-3 h-10 shadow-sm sm:text-sm focus:outline-none placeholder:text-slate-400 focus:ring-2 focus:ring-sky-500 ring-1 ring-slate-200',
                 ],
                 'constraints' => [
                     new File([
@@ -53,9 +55,9 @@ class MaterialType extends AbstractType
             ])
 
             ->add('submit', SubmitType::class, [
-                'label' => 'Ajouter',
+                'label' => 'Ajouter le matériel',
                 'attr' => [
-                    'class' => 'btn btn-primary m-2',
+                    'class' => 'inline-flex justify-center rounded-lg text-sm font-semibold py-2.5 px-4 bg-slate-900 text-white hover:bg-slate-700 w-full',
                 ],
             ]);
 
