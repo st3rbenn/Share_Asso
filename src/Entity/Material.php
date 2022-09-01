@@ -6,6 +6,7 @@ use App\Repository\MaterialRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * @ORM\Entity(repositoryClass=MaterialRepository::class)
@@ -35,11 +36,17 @@ class Material
     private $material_img;
 
     /**
+     * @var \DateTime $material_createdat
+     * 
+     * @Gedmo\Timestampable(on="create")
      * @ORM\Column(type="datetime", nullable=true)
      */
     private $material_createdat;
 
     /**
+     * @var \DateTime $material_updatedat
+     * 
+     * @Gedmo\Timestampable(on="update")
      * @ORM\Column(type="datetime", nullable=true)
      */
     private $material_updatedat;
@@ -105,24 +112,24 @@ class Material
         return $this->material_createdat;
     }
 
-    public function setMaterialCreatedat(?\DateTimeInterface $material_createdat): self
-    {
-        $this->material_createdat = $material_createdat;
+    // public function setMaterialCreatedat(?\DateTimeInterface $material_createdat): self
+    // {
+    //     $this->material_createdat = $material_createdat;
 
-        return $this;
-    }
+    //     return $this;
+    // }
 
     public function getMaterialUpdatedat(): ?\DateTimeInterface
     {
         return $this->material_updatedat;
     }
 
-    public function setMaterialUpdatedat(?\DateTimeInterface $material_updatedat): self
-    {
-        $this->material_updatedat = $material_updatedat;
+    // public function setMaterialUpdatedat(?\DateTimeInterface $material_updatedat): self
+    // {
+    //     $this->material_updatedat = $material_updatedat;
 
-        return $this;
-    }
+    //     return $this;
+    // }
 
     public function getAsso(): ?Association
     {
