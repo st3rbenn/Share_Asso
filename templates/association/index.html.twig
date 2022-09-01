@@ -1,35 +1,25 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Association index{% endblock %}
+{% block title %}Profil Association{% endblock %}
 
 {% block body %}
-    <h1>Association index</h1>
+    {% for association in associations %}
+        <div class="container">
+            <h1>Profil {{ association.associationName }}</h1>
+            <a href="{{ path('app_association_edit', {'id': association.id}) }}">Modifier</a>
+        </div>
+    {% endfor %}
+    {#{% for material in materials %}
+        <div class="container">
+            <h1>Profil {{ material.materialName }}</h1>
+            <a href="{{ path('app_material_edit', {'id': material.id}) }}">Modifier</a>
+        </div>
+    {% endfor %}#}
+    {#{% for user in users %}
+        <div class="container">
+            <h1>Profil {{ user.username }}</h1>
+            <a href="{{ path('app_user_edit', {'id': user.id}) }}">Modifier</a>
+        </div>
+    {% endfor %}#}
 
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>Association_name</th>
-                <th>actions</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for association in associations %}
-            <tr>
-                <td>{{ association.id }}</td>
-                <td>{{ association.associationName }}</td>
-                <td>
-                    <a href="{{ path('app_association_show', {'id': association.id}) }}">show</a>
-                    <a href="{{ path('app_association_edit', {'id': association.id}) }}">edit</a>
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="3">no records found</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
-
-    <a href="{{ path('app_association_new') }}">Create new</a>
 {% endblock %}
