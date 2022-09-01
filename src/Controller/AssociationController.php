@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Association;
 use App\Form\RegisterAssociationType;
 use App\Repository\AssociationRepository;
+use App\Repository\MaterialRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -18,10 +19,12 @@ class AssociationController extends AbstractController
     /**
      * @Route("/", name="app_association_index", methods={"GET"})
      */
-    public function index(AssociationRepository $associationRepository): Response
+    public function index(AssociationRepository $associationRepository, MaterialRepository $materialRepository): Response
     {
+        $materials = $materialRepository->findAll();
         return $this->render('association/index.html.twig', [
             'associations' => $associationRepository->findAll(),
+            'materials' => $materials,
         ]);
     }
 

@@ -8,7 +8,7 @@
             <div class="ml-10 space-x-4">
                 {% if app.user %}
                     <a href="/profil" class="inline-block rounded-md border border-transparent bg-indigo-500 py-2 px-4 text-base font-medium text-white hover:bg-opacity-75">Mon profil</a>
-                    <a href="/material/new">Material</a>
+                    <a href="{{path('app_material_new') }}">Material</a>
                     <a href="/logout" >Logout</a>
                     {% if is_granted("ROLE_ADMIN") %}
                         <a href="#" class="inline-block rounded-md border border-transparent bg-indigo-500 py-2 px-4 text-base font-medium text-white hover:bg-opacity-75">Admin</a>
