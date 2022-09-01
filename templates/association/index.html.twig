@@ -3,23 +3,38 @@
 {% block title %}Profil Association{% endblock %}
 
 {% block body %}
+<div class="overflow-hidden bg-white shadow sm:rounded-lg">
+    <div class="px-4 py-5 sm:px-6">
+        <h3 class="text-lg font-medium leading-6 text-gray-900">Profil de votre Association</h3>
+    </div>
     {% for association in associations %}
-
         {% if association.id == app.user.asso.id %}
-            <div class="container">
-                <h1>Profil {{ association.associationName }}</h1>
+            <div class="text-center">
+                <h1 class=""> {{ association.associationName }}</h1>
                 <a href="{{ path('app_association_edit', {'id': association.id}) }}">Modifier</a>
             </div>
         {% endif %}
-
     {% endfor %}
-        
     {% for material in materials %}
         {% if material.asso.id == app.user.asso.id %}
-            <div class="container">
-                <h1>Profil {{ material.materialName }}</h1>
-                <a href="{{ path('app_material_edit', {'id': material.id}) }}">Modifier</a>
-            </div>          
+                <div class="border-t border-gray-200 px-4 py-5 sm:p-0">
+                    <dl class="sm:divide-y sm:divide-gray-200">
+                        <div class="py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:py-5 sm:px-6">
+                            <dt class="text-sm font-medium text-gray-500">Ressource</dt>
+                            <dd class="mt-1 text-sm text-gray-900 sm:col-span-2 sm:mt-0">{{ material.materialName }}</dd>
+                        </div>
+                        <div class="py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:py-5 sm:px-6">
+                            <dt class="text-sm font-medium text-gray-500">Email address</dt>
+                            <dd class="mt-1 text-sm text-gray-900 sm:col-span-2 sm:mt-0">margotfoster@example.com</dd>
+                        </div>
+                        <div class="py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:py-5 sm:px-6">
+                            <dt class="text-sm font-medium text-gray-500">Prix de la location</dt>
+                            <dd class="mt-1 text-sm text-gray-900 sm:col-span-2 sm:mt-0">$120,000</dd>
+                        </div>
+                    </dl>
+                </div>
+            </div>
+
         {% endif %}
     {% endfor %}
 
