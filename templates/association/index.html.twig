@@ -4,17 +4,26 @@
 
 {% block body %}
     {% for association in associations %}
-        <div class="container">
-            <h1>Profil {{ association.associationName }}</h1>
-            <a href="{{ path('app_association_edit', {'id': association.id}) }}">Modifier</a>
-        </div>
+
+        {% if association.id == app.user.asso.id %}
+            <div class="container">
+                <h1>Profil {{ association.associationName }}</h1>
+                <a href="{{ path('app_association_edit', {'id': association.id}) }}">Modifier</a>
+            </div>
+        {% endif %}
+
     {% endfor %}
-    {#{% for material in materials %}
-        <div class="container">
-            <h1>Profil {{ material.materialName }}</h1>
-            <a href="{{ path('app_material_edit', {'id': material.id}) }}">Modifier</a>
-        </div>
-    {% endfor %}#}
+        
+    {% for material in materials %}
+        {% if material.asso.id == app.user.asso.id %}
+            <div class="container">
+                <h1>Profil {{ material.materialName }}</h1>
+                <a href="{{ path('app_material_edit', {'id': material.id}) }}">Modifier</a>
+            </div>          
+        {% endif %}
+    {% endfor %}
+
+    
     {#{% for user in users %}
         <div class="container">
             <h1>Profil {{ user.username }}</h1>
