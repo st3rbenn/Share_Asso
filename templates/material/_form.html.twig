@@ -2,7 +2,7 @@
     <div class="md:col-span-1 mb-3">
         <h3 class="text-lg font-medium leading-6 text-gray-900">Ajouter du matos</h3>
     </div>
-    <form class="w-full max-w-sm" action="#" method="POST">
+    {{ form_start(form) }}
         <div class="mb-6">
             {{ form_label(form.material_name) }}
             {{ form_errors(form.material_name) }}
@@ -20,7 +20,7 @@
             {{ form_errors(form.material_img) }}
             {{ form_widget(form.material_img) }}
         </div>
-        {{ form_widget(form._token) }}
         {{ form_widget(form.submit) }}
-    </form>
+        {{ form_widget(form._token) }}
+    {{ form_end(form) }}
 </div>
