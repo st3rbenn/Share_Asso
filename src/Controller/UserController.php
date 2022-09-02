@@ -45,6 +45,9 @@ class UserController extends AbstractController
 
             return $this->redirectToRoute('login', [], Response::HTTP_SEE_OTHER);
         }
+        else if($form->isSubmitted() && !$form->isValid()){
+            $this->addFlash('danger', 'Une erreur est survenue lors de la création de votre compte');
+        }
 
         return $this->renderForm('user/new.html.twig', [
             'user' => $user,
