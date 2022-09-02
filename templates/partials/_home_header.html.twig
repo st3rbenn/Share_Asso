@@ -1,10 +1,12 @@
-<header class="bg-indigo-600">
+<header style="background-color: transparent;box-shadow: 0 -1px 4px 0 rgba(26,26,26,.08),0 4px 8px 0 rgba(26,26,26,.12);">
     <nav class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8" aria-label="Top">
-        <div class="flex w-full items-center justify-between border-b border-indigo-500 py-6 lg:border-none">
+        <div class="flex w-full items-center justify-between border-b py-3 lg:border-none">
             <div class="flex items-center">
-                <a href="/" class="inline-block rounded-md border border-transparent bg-indigo-500 py-2 px-4 text-base font-medium text-white hover:bg-opacity-75"><img src="../../public/assets/images/logo_Share_Asso.png" alt="Logo de Share Asso"> </a>
+                <a href="/" class="inline-block rounded-md border border-transparent py-2 px-4 text-base font-medium text-white hover:bg-opacity-75">
+                    <img src="{{ asset('uploads/images/logo_Share_Asso.png') }}" alt="Logo de Share Asso" width="75px" height="50px">
+                </a>
             </div>
-            <div class="ml-10 space-x-4">
+            <div class="ml-10 space-x-4 flex justify-center align-middle">
                 {% if app.user %}
                     <a href="{{ path('app_material_new') }}" class="inline-block rounded-md border border-transparent py-2 px-4 text-base font-medium text-white hover:bg-opacity-75" style="background-color: #fb4e17;align-self: center;">
                         Déposer une annonce
