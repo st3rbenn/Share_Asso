@@ -39,6 +39,36 @@ class Association
      */
     private $deals;
 
+    /**
+     * @ORM\Column(type="string", length=20, nullable=true)
+     */
+    private $association_phone;
+
+    /**
+     * @ORM\Column(type="string", length=150, nullable=true)
+     */
+    private $association_address;
+
+    /**
+     * @ORM\Column(type="string", length=100, nullable=true)
+     */
+    private $association_city;
+
+    /**
+     * @ORM\Column(type="string", length=20, nullable=true)
+     */
+    private $association_zipcode;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $association_img;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $association_website;
+
     public function __construct()
     {
         $this->users = new ArrayCollection();
@@ -149,6 +179,78 @@ class Association
                 $deal->setAsso(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getAssociationPhone(): ?string
+    {
+        return $this->association_phone;
+    }
+
+    public function setAssociationPhone(?string $association_phone): self
+    {
+        $this->association_phone = $association_phone;
+
+        return $this;
+    }
+
+    public function getAssociationAddress(): ?string
+    {
+        return $this->association_address;
+    }
+
+    public function setAssociationAddress(?string $association_address): self
+    {
+        $this->association_address = $association_address;
+
+        return $this;
+    }
+
+    public function getAssociationCity(): ?string
+    {
+        return $this->association_city;
+    }
+
+    public function setAssociationCity(?string $association_city): self
+    {
+        $this->association_city = $association_city;
+
+        return $this;
+    }
+
+    public function getAssociationZipcode(): ?string
+    {
+        return $this->association_zipcode;
+    }
+
+    public function setAssociationZipcode(?string $association_zipcode): self
+    {
+        $this->association_zipcode = $association_zipcode;
+
+        return $this;
+    }
+
+    public function getAssociationImg(): ?string
+    {
+        return $this->association_img;
+    }
+
+    public function setAssociationImg(?string $association_img): self
+    {
+        $this->association_img = $association_img;
+
+        return $this;
+    }
+
+    public function getAssociationWebsite(): ?string
+    {
+        return $this->association_website;
+    }
+
+    public function setAssociationWebsite(?string $association_website): self
+    {
+        $this->association_website = $association_website;
 
         return $this;
     }

@@ -3,5 +3,5 @@
 {% block title %}New Association{% endblock %}
 
 {% block body %}
-    {{ include('association/_form.html.twig') }}
+    {{ include('association/_form.html.twig', {'button_value': 'Continuer mon inscription', 'title': 'Inscription'}) }}
 {% endblock %}
