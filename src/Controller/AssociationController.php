@@ -6,9 +6,10 @@ use App\Entity\Association;
 use App\Entity\User;
 use App\Form\RegisterAssociationType;
 use App\Repository\AssociationRepository;
+use App\Repository\DealRepository;
 use App\Repository\MaterialRepository;
 use App\Service\FileUploader;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
+use App\Repository\UserRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -22,15 +23,16 @@ class AssociationController extends AbstractController
     /**
      * @Route("/", name="app_association_index", methods={"GET"})
      */
-    public function index(
-        AssociationRepository $associationRepository,
-        MaterialRepository $materialRepository
-    ): Response
+    public function index(AssociationRepository $associationRepository, MaterialRepository $materialRepository, UserRepository $userRepository, DealRepository $dealRepository): Response
     {
+        $users = $userRepository->findAll();
+        $deals = $dealRepository->findAll();
         $materials = $materialRepository->findAll();
         return $this->render('association/index.html.twig', [
             'associations' => $associationRepository->findAll(),
             'materials' => $materials,
+            'users' => $users,
+            'deals' => $deals,
         ]);
     }
 
@@ -52,8 +54,12 @@ class AssociationController extends AbstractController
                 $association->setAssociationImg($fileName);
                 $associationRepository->add($association);
             }
+            $this->addFlash('success', 'Votre association a bien été ajoutée');
 
             return $this->redirectToRoute('app_user_new', ['id' => $association->getId()], Response::HTTP_SEE_OTHER);
+        }
+        else if($form->isSubmitted() && !$form->isValid()){
+            $this->addFlash('danger', 'Une erreur est survenue lors de l\'ajout de votre association');
         }
 
         return $this->renderForm('association/new.html.twig', [

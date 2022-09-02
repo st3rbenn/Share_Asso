@@ -32,19 +32,25 @@ class DealController extends AbstractController
     public function new(Material $id, Request $request, DealRepository $dealRepository): Response
     {
         $deal = new Deal();
-        $dealRepository->add($deal, true);
-        // $form = $this->createForm(DealType::class, $deal);
-        // $form->handleRequest($request);
 
-        // if ($form->isSubmitted() && $form->isValid()) {
-        //     $dealRepository->add($deal, true);
+        $form = $this->createForm(DealType::class, $deal);
+        $form->handleRequest($request);
 
-        //     return $this->redirectToRoute('app_deal_index', [], Response::HTTP_SEE_OTHER);
-        // }
+        if ($form->isSubmitted() && $form->isValid()) {
+            $deal->setMaterial($id);
+            $deal->setAsso($this->getUser()->getAsso());
+            $dealRepository->add($deal, true);
+            $this->addFlash('success', 'Votre proposition a bien été envoyée');
+
+            return $this->redirectToRoute('app_deal_index', [], Response::HTTP_SEE_OTHER);
+        }
+        else if($form->isSubmitted() && !$form->isValid()){
+            $this->addFlash('danger', 'Une erreur est survenue lors de l\'envoi de votre proposition');
+        }
 
         return $this->renderForm('deal/new.html.twig', [
-            // 'deal' => $deal,
-            // 'form' => $form,
+            'deal' => $deal,
+            'form' => $form,
         ]);
     }
 

@@ -39,6 +39,11 @@ class DealRepository extends ServiceEntityRepository
         }
     }
 
+    public function getDeals(): array
+    {
+        return $this->findAll();
+    }
+
 //    /**
 //     * @return Deal[] Returns an array of Deal objects
 //     */

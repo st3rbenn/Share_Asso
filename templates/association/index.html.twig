@@ -51,7 +51,6 @@
                                 </button>
                             </div>
                         </div>
-
                         <div class="flex flex-col bg-white rounded-b p-3">
                             <div class="text-sm font-semibold text-gray-900 hover:underline truncate">
                                 {{ material.materialDescription }}
@@ -130,6 +129,24 @@
             {% endif %}
         {% endfor %}
     </div>
+        {% for deal in deals %}
+        {% if app.user.asso.id == app.user.asso.deals.owner.id %}
+            {# <p>{{ deal.dealCreatedat }}</p>
+            <p>{{ deal.dealUpdatedat }}</p> #}
+            <p>{{ deal.dealContent }}</p>
+        {% endif %}
+    {% endfor %}
+
+
+    
+    {% for user in users %}
+        {% if user.asso.id == app.user.asso.id %}
+            <div class="container">
+                <h1>Profil {{ user.username }}</h1>
+                <a href="{{ path('app_user_edit', {'id': user.id}) }}">Modifier</a>
+            </div>
+        {% endif %}
+    {% endfor %}
 </div>
 
 {% endblock %}
