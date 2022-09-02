@@ -1,5 +1,5 @@
 parameters:
-    gallery_images_directory: '%kernel.project_dir%/public/uploads/images'
+    material_img_directory: '%kernel.project_dir%/public/uploads/images'
 services:
     _defaults:
         autowire: true
@@ -14,4 +14,4 @@ services:
 
     App\Service\FileUploader:
         arguments:
-            $targetDirectory: '%gallery_images_directory%'
+            $targetDirectory: '%material_img_directory%'
