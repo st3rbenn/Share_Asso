@@ -2,14 +2,16 @@
 
 namespace App\Controller;
 
+use App\Entity\Deal;
 use App\Entity\Material;
 use App\Form\MaterialType;
-use App\Repository\AssociationRepository;
 use App\Repository\MaterialRepository;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use App\Repository\AssociationRepository;
+use App\Repository\DealRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 /**
  * @Route("/material")
@@ -44,6 +46,9 @@ class MaterialController extends AbstractController
 
             return $this->redirectToRoute('app_association_index', [], Response::HTTP_SEE_OTHER);
         }
+        else if($form->isSubmitted() && !$form->isValid()) {
+            $this->addFlash('danger', 'Une erreur est survenue lors de l\'ajout de votre matériel');
+        }
 
         return $this->renderForm('material/new.html.twig', [
             'material' => $material,
@@ -54,10 +59,19 @@ class MaterialController extends AbstractController
     /**
      * @Route("/{id}", name="app_material_show", requirements={"id"="\d+"}, methods={"GET"})
      */
-    public function show(Material $material): Response
+    public function show(Material $material, DealRepository $dealRepository, Deal $deal): Response
     {
+        $deals = $dealRepository->findByMaterial($material);
+
+        foreach($deals as $deal) {
+           $dealed =$deal->getAsso() === $this->getUser()->getAsso() ? true : false;
+        }
+
         return $this->render('material/show.html.twig', [
             'material' => $material,
+            'deal' => $deal,
+            'deals' => $deals,
+            'dealed' => $dealed,
         ]);
     }
 

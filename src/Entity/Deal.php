@@ -44,6 +44,11 @@ class Deal
      */
     private $asso;
 
+    /**
+     * @ORM\Column(type="text", nullable=true)
+     */
+    private $deal_content;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -93,6 +98,18 @@ class Deal
     public function setAsso(?Association $asso): self
     {
         $this->asso = $asso;
+
+        return $this;
+    }
+
+    public function getDealContent(): ?string
+    {
+        return $this->deal_content;
+    }
+
+    public function setDealContent(?string $deal_content): self
+    {
+        $this->deal_content = $deal_content;
 
         return $this;
     }
