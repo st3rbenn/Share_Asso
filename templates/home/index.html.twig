@@ -6,7 +6,7 @@
 <div class="overflow-hidden mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
     <div class="flex flex-wrap gap-3 mt-32">
         {% for material in materials %}
-            <div class="flex flex-col items-center justify-center">
+            <div class="flex flex-col items-center justify-center mb-5">
                 <div class="flex flex-col shadow-md cursor-pointer w-96 hover:-translate-y-1 duration-300">
                     <div class="inline relative group h-48">
                         <img class="absolute rounded-t object-cover h-full w-full"
@@ -44,7 +44,7 @@
 
                         <div class="text-xxs text-gray-400 truncate mt-1">
                             par
-                            <a class="font-semibold hover:underline">{{ material.asso.associationName }}</a>
+                            <a class="font-semibold hover:underline" href="{{ path('app_association_index', {'id': material.asso.id}) }}">{{ material.asso.associationName }}</a>
                         </div>
 
                         <div class="text-sm text-gray-600 font-bold mt-4 mb-1">
@@ -75,7 +75,7 @@
                                        title="Awesome"></i>
 
                                     <div class="text-xxs text-gray-400 ml-1 hover:underline">
-                                        {{ material.materialCreatedAt|date('d/m/Y') }}
+                                        Publier le {{ material.materialCreatedAt|date('d/m/Y') }}
                                     </div>
                                 </div>
 
@@ -85,26 +85,15 @@
                             </div>
 
                             <div class="flex flex-row flex-auto justify-end">
-                                <a class="flex text-xs border px-3 my-auto py-2 mr-2
-                            border-amber-500 group hover:bg-amber-500
-                            rounded-xss
-                            transition-all duration-200">
-
-                                    <i class="mdi mdi-cart-outline text-amber-700
-                                group-hover:text-white delay-100"></i>
-                                </a>
 
                                 <a class="flex text-xs border px-3 my-auto py-2
                             border-amber-500 group hover:bg-amber-500
                             rounded-xss
                             transition-all duration-200">
 
-                                    <i class="mdi mdi-eye-outline text-amber-700
-                                group-hover:text-white delay-100"></i>
-
                                     <div class="text-xxs text-amber-700 font-semibold ml-2
                                 group-hover:text-white delay-100">
-                                        Live Preview
+                                        Voir l'annonce
                                     </div>
                                 </a>
                             </div>
@@ -115,13 +104,5 @@
         {% endfor %}
     </div>
 </div>
-<ul>
-    {% for material in materials %}
-        <li>
-            <a href="{{ path('app_material_show', {'id': material.id}) }}">{{ material.materialName }}</a>
-            <img src={{material.materialImg}}>
-        </li>
-    {% endfor %}
-</ul>
 {% endblock %}
 

@@ -7,21 +7,66 @@
     <div class="px-4 py-5 sm:px-6">
         <h1 class="text-lg font-medium leading-6 text-gray-900">Profil de votre Association</h1>
     </div>
-    {% for association in associations %}
-        {% if association.id == app.user.asso.id %}
-            <div class="text-center">
-                <h1 class=""> {{ association.associationName }}</h1>
-                <a href="{{ path('app_association_edit', {'id': association.id}) }}">Modifier</a>
+    {% if associations.id == app.user.asso.id %}
+        <div class="text-center">
+            <h1 class="text-lg font-medium leading-6 text-gray-900"> {{ associations.associationName }}</h1>
+            <a href="{{ path('app_association_edit', {'id': associations.id}) }}">Modifier</a>
+        </div>
+            <div class="relative flex flex-1 items-center justify-start pb-16">
+                <div class="w-52 h-52 rounded-full overflow-hidden border-2 dark:border-white border-gray-900">
+                    <img src="{{ asset('uploads/images/' ~ associations.associationImg) }}" alt="" class="w-full h-full object-cover">
+                </div>
+                <div class="flex flex-col ml-28">
+                    <div class="mb-6 justify-center items-center flex flex-row gap-6">
+                        <div>
+                            <div class="justify-center align-middle mt-2 appearance-none text-slate-900 bg-white rounded-md block w-full px-3 h-10 shadow-sm sm:text-sm focus:outline-none placeholder:text-slate-400 focus:ring-2 focus:ring-sky-500 ring-1 ring-slate-200">
+                                <p class="text-center">
+                                    {{ associations.associationName }}
+                                </p>
+                            </div>
+                            <div class="justify-center align-middle mt-2 appearance-none text-slate-900 bg-white rounded-md block w-full px-3 h-10 shadow-sm sm:text-sm focus:outline-none placeholder:text-slate-400 focus:ring-2 focus:ring-sky-500 ring-1 ring-slate-200">
+                                <p class="text-center">
+                                    {{ associations.associationAddress ~ ', ' ~ associations.associationZipCode ~ ' ' ~ associations.associationCity }}
+                                </p>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="justify-center align-middle mt-2 appearance-none text-slate-900 bg-white rounded-md block w-full px-3 h-10 shadow-sm sm:text-sm focus:outline-none placeholder:text-slate-400 focus:ring-2 focus:ring-sky-500 ring-1 ring-slate-200">
+                                <p class="text-center">
+                                    {{ associations.associationPhone }}
+                                </p>
+                            </div>
+                            <div class="justify-center align-middle mt-2 appearance-none text-slate-900 bg-white rounded-md block w-full px-3 h-10 shadow-sm sm:text-sm focus:outline-none placeholder:text-slate-400 focus:ring-2 focus:ring-sky-500 ring-1 ring-slate-200">
+                                <a href="{{ associations.associationWebsite }}" target="_blank" class="text-center">
+                                    {{ associations.associationWebsite }}
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {#<div class="flex flex-col w-64">
+                    <div class="mt-2 appearance-none text-slate-900 bg-white rounded-md block w-full px-3 h-10 shadow-sm sm:text-sm focus:outline-none placeholder:text-slate-400 focus:ring-2 focus:ring-sky-500 ring-1 ring-slate-200">
+                        {{ form_label(form.association_address) }}
+                        {{ form_errors(form.association_address) }}
+                        {{ form_widget(form.association_address) }}
+                    </div>
+                    <div class="mt-2 appearance-none text-slate-900 bg-white rounded-md block w-full px-3 h-10 shadow-sm sm:text-sm focus:outline-none placeholder:text-slate-400 focus:ring-2 focus:ring-sky-500 ring-1 ring-slate-200">
+                        {{ form_label(form.association_city) }}
+                        {{ form_errors(form.association_city) }}
+                        {{ form_widget(form.association_city) }}
+                    </div>
+                    <div class="mt-2 appearance-none text-slate-900 bg-white rounded-md block w-full px-3 h-10 shadow-sm sm:text-sm focus:outline-none placeholder:text-slate-400 focus:ring-2 focus:ring-sky-500 ring-1 ring-slate-200">
+                        {{ form_label(form.association_zipcode) }}
+                        {{ form_errors(form.association_zipcode) }}
+                        {{ form_widget(form.association_zipcode) }}
+                    </div>
+                </div>#}
             </div>
-        {% endif %}
-    {% endfor %}
-    <div class="w-52 h-52 rounded-full overflow-hidden border-2 dark:border-white border-gray-900">
-        <img src="{{ asset('uploads/images/' ~ app.user.asso.associationImg) }}" alt="" class="w-full h-full object-cover">
-    </div>
-    <div class="flex flex-wrap gap-3">
+    {% endif %}
+    <div class="flex flex-wrap gap-3 mt-32">
         {% for material in materials %}
-            {% if material.asso.id == app.user.asso.id %}
-                <div class="flex flex-col items-center justify-center mt-32">
+            {% if material.asso.id == associations.id %}
+                <div class="flex flex-col items-center justify-center mb-5">
                     <div class="flex flex-col shadow-md cursor-pointer w-96 hover:-translate-y-1 duration-300">
                         <div class="inline relative group h-48">
                             <img class="absolute rounded-t object-cover h-full w-full"
@@ -89,7 +134,7 @@
                                            title="Awesome"></i>
 
                                         <div class="text-xxs text-gray-400 ml-1 hover:underline">
-                                            {{ material.materialCreatedAt|date('d/m/Y') }}
+                                            Publier le {{ material.materialCreatedAt|date('d/m/Y') }}
                                         </div>
                                     </div>
 
@@ -99,26 +144,15 @@
                                 </div>
 
                                 <div class="flex flex-row flex-auto justify-end">
-                                    <a class="flex text-xs border px-3 my-auto py-2 mr-2
-                            border-amber-500 group hover:bg-amber-500
-                            rounded-xss
-                            transition-all duration-200">
-
-                                        <i class="mdi mdi-cart-outline text-amber-700
-                                group-hover:text-white delay-100"></i>
-                                    </a>
 
                                     <a class="flex text-xs border px-3 my-auto py-2
                             border-amber-500 group hover:bg-amber-500
                             rounded-xss
                             transition-all duration-200">
 
-                                        <i class="mdi mdi-eye-outline text-amber-700
-                                group-hover:text-white delay-100"></i>
-
                                         <div class="text-xxs text-amber-700 font-semibold ml-2
                                 group-hover:text-white delay-100">
-                                            Live Preview
+                                            Voir l'annonce
                                         </div>
                                     </a>
                                 </div>
@@ -134,17 +168,6 @@
             {# <p>{{ deal.dealCreatedat }}</p>
             <p>{{ deal.dealUpdatedat }}</p> #}
             <p>{{ deal.dealContent }}</p>
-        {% endif %}
-    {% endfor %}
-
-
-    
-    {% for user in users %}
-        {% if user.asso.id == app.user.asso.id %}
-            <div class="container">
-                <h1>Profil {{ user.username }}</h1>
-                <a href="{{ path('app_user_edit', {'id': user.id}) }}">Modifier</a>
-            </div>
         {% endif %}
     {% endfor %}
 </div>

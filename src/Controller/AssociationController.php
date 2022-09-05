@@ -21,15 +21,20 @@ use Symfony\Component\Routing\Annotation\Route;
 class AssociationController extends AbstractController
 {
     /**
-     * @Route("/", name="app_association_index", methods={"GET"})
+     * @Route("/{id}", name="app_association_index", methods={"GET"})
      */
-    public function index(AssociationRepository $associationRepository, MaterialRepository $materialRepository, UserRepository $userRepository, DealRepository $dealRepository): Response
+    public function index(
+        MaterialRepository $materialRepository,
+        UserRepository $userRepository,
+        DealRepository $dealRepository,
+        Association $association
+    ): Response
     {
         $users = $userRepository->findAll();
         $deals = $dealRepository->findAll();
         $materials = $materialRepository->findAll();
         return $this->render('association/index.html.twig', [
-            'associations' => $associationRepository->findAll(),
+            'associations' => $association,
             'materials' => $materials,
             'users' => $users,
             'deals' => $deals,
