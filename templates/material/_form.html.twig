@@ -14,13 +14,17 @@
             {{ form_errors(form.material_description) }}
             {{ form_widget(form.material_description) }}
         </div>
-
-        <div class="mb-6">
-            {{ form_label(form.material_img) }}
+        <div class="flex items-center justify-center w-full mb-3">
             {{ form_errors(form.material_img) }}
-            {{ form_widget(form.material_img) }}
+            <label for="dropzone-file" class="flex flex-col items-center justify-center w-full border-2 border-orange-600 border-dashed rounded-lg cursor-pointer bg-transparent">
+                <div class="flex flex-col items-center justify-center pt-5 pb-6">
+                    <svg class="w-10 h-10 text-gray-400 mt-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"></path></svg>
+                    <p class="mb-2 text-sm text-gray-500 dark:text-gray-400"><span class="font-semibold">Clique pour charger une image</span>{# ou glisse et dépose la ici#}</p>
+                    <p class="text-xs text-gray-500 dark:text-gray-400">SVG, PNG, JPG </p>
+                </div>
+                {{ form_widget(form.material_img, {'id': 'dropzone-file'}) }}
+            </label>
         </div>
-        {{ form_widget(form.submit) }}
         {{ form_widget(form._token) }}
     {{ form_end(form) }}
 </div>

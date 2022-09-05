@@ -3,8 +3,6 @@
 {% block title %}New Association{% endblock %}
 
 {% block body %}
-    {{ include('association/_form.html.twig') }}
-
     {% for message in app.flashes('success') %}
         <div class="alert alert-success">
             {{ message }}
@@ -15,4 +13,5 @@
             {{ message }}
         </div>
     {% endfor %}
+    {{ include('association/_form.html.twig', {'button_value': 'Continuer mon inscription', 'title': 'Inscription'}) }}
 {% endblock %}

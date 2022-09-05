@@ -13,7 +13,6 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 /**
  * @Route("/material")
@@ -94,13 +93,26 @@ class MaterialController extends AbstractController
     /**
      * @Route("/{id}/edit", name="app_material_edit", methods={"GET", "POST"})
      */
-    public function edit(Request $request, Material $material, MaterialRepository $materialRepository): Response
+    public function edit(
+        Request $request,
+        Material $material,
+        MaterialRepository $materialRepository,
+        FileUploader $fileUploader
+    ): Response
     {
         $form = $this->createForm(MaterialType::class, $material);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $materialRepository->add($material, true);
+            $materialRepository->add($material);
+
+            $file = $form['material_img']->getData();
+
+            if($file){
+                $fileName = $fileUploader->upload($file);
+                $material->setMaterialImg($fileName);
+                $materialRepository->add($material);
+            }
 
             return $this->redirectToRoute('app_material_index', [], Response::HTTP_SEE_OTHER);
         }

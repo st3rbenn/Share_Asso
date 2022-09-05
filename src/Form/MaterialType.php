@@ -6,6 +6,7 @@ use App\Entity\Material;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -24,8 +25,7 @@ class MaterialType extends AbstractType
                     'class' => 'mt-2 appearance-none text-slate-900 bg-white rounded-md block w-full px-3 h-10 shadow-sm sm:text-sm focus:outline-none placeholder:text-slate-400 focus:ring-2 focus:ring-sky-500 ring-1 ring-slate-200'
                 ],
             ])
-
-            ->add('material_description', TextType::class, [
+            ->add('material_description', TextareaType::class, [
                 'label' => 'Description du matériel',
                 'required' => true,
                 'attr' => [
@@ -33,13 +33,13 @@ class MaterialType extends AbstractType
                     'class' => 'mt-2 appearance-none text-slate-900 bg-white rounded-md block w-full px-3 h-10 shadow-sm sm:text-sm focus:outline-none placeholder:text-slate-400 focus:ring-2 focus:ring-sky-500 ring-1 ring-slate-200'
                 ],
             ])
-
             ->add('material_img', FileType::class, [
                 'required' => false,
                 'data_class' => null,
                 'data' => null,
                 'attr' => [
-                    'class' => 'mt-2 appearance-none text-slate-900 bg-white rounded-md block w-full px-3 h-10 shadow-sm sm:text-sm focus:outline-none placeholder:text-slate-400 focus:ring-2 focus:ring-sky-500 ring-1 ring-slate-200',
+                    'class' => 'cursor-pointer relative block opacity-0 w-full h-full p-10 z-50',
+                    'type' => 'file',
                 ],
                 'constraints' => [
                     new File([
@@ -53,7 +53,6 @@ class MaterialType extends AbstractType
                     ])
                 ],
             ])
-
             ->add('submit', SubmitType::class, [
                 'label' => 'Ajouter le matériel',
                 'attr' => [

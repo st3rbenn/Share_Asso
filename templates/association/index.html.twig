@@ -3,57 +3,173 @@
 {% block title %}Profil Association{% endblock %}
 
 {% block body %}
-<div class="overflow-hidden bg-white shadow sm:rounded-lg">
+<div class="overflow-hidden mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
     <div class="px-4 py-5 sm:px-6">
-        <h3 class="text-lg font-medium leading-6 text-gray-900">Profil de votre Association</h3>
+        <h1 class="text-lg font-medium leading-6 text-gray-900">Profil de votre Association</h1>
     </div>
-    {% for association in associations %}
-        {% if association.id == app.user.asso.id %}
-            <div class="text-center">
-                <h1 class=""> {{ association.associationName }}</h1>
-                <a href="{{ path('app_association_edit', {'id': association.id}) }}">Modifier</a>
-            </div>
-        {% endif %}
-    {% endfor %}
-    {% for material in materials %}
-        {% if material.asso.id == app.user.asso.id %}
-                <div class="border-t border-gray-200 px-4 py-5 sm:p-0">
-                    <dl class="sm:divide-y sm:divide-gray-200">
-                        <div class="py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:py-5 sm:px-6">
-                            <dt class="text-sm font-medium text-gray-500">Ressource</dt>
-                            <dd class="mt-1 text-sm text-gray-900 sm:col-span-2 sm:mt-0">{{ material.materialName }}</dd>
-                        </div>
-                        <div class="py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:py-5 sm:px-6">
-                            <dt class="text-sm font-medium text-gray-500">Email address</dt>
-                            <dd class="mt-1 text-sm text-gray-900 sm:col-span-2 sm:mt-0">margotfoster@example.com</dd>
-                        </div>
-                        <div class="py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:py-5 sm:px-6">
-                            <dt class="text-sm font-medium text-gray-500">Prix de la location</dt>
-                            <dd class="mt-1 text-sm text-gray-900 sm:col-span-2 sm:mt-0">$120,000</dd>
-                        </div>
-                    </dl>
+    {% if associations.id == app.user.asso.id %}
+        <div class="text-center">
+            <h1 class="text-lg font-medium leading-6 text-gray-900"> {{ associations.associationName }}</h1>
+            <a href="{{ path('app_association_edit', {'id': associations.id}) }}">Modifier</a>
+        </div>
+            <div class="relative flex flex-1 items-center justify-start pb-16">
+                <div class="w-52 h-52 rounded-full overflow-hidden border-2 dark:border-white border-gray-900">
+                    <img src="{{ asset('uploads/images/' ~ associations.associationImg) }}" alt="" class="w-full h-full object-cover">
                 </div>
+                <div class="flex flex-col ml-28">
+                    <div class="mb-6 justify-center items-center flex flex-row gap-6">
+                        <div>
+                            <div class="justify-center align-middle mt-2 appearance-none text-slate-900 bg-white rounded-md block w-full px-3 h-10 shadow-sm sm:text-sm focus:outline-none placeholder:text-slate-400 focus:ring-2 focus:ring-sky-500 ring-1 ring-slate-200">
+                                <p class="text-center">
+                                    {{ associations.associationName }}
+                                </p>
+                            </div>
+                            <div class="justify-center align-middle mt-2 appearance-none text-slate-900 bg-white rounded-md block w-full px-3 h-10 shadow-sm sm:text-sm focus:outline-none placeholder:text-slate-400 focus:ring-2 focus:ring-sky-500 ring-1 ring-slate-200">
+                                <p class="text-center">
+                                    {{ associations.associationAddress ~ ', ' ~ associations.associationZipCode ~ ' ' ~ associations.associationCity }}
+                                </p>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="justify-center align-middle mt-2 appearance-none text-slate-900 bg-white rounded-md block w-full px-3 h-10 shadow-sm sm:text-sm focus:outline-none placeholder:text-slate-400 focus:ring-2 focus:ring-sky-500 ring-1 ring-slate-200">
+                                <p class="text-center">
+                                    {{ associations.associationPhone }}
+                                </p>
+                            </div>
+                            <div class="justify-center align-middle mt-2 appearance-none text-slate-900 bg-white rounded-md block w-full px-3 h-10 shadow-sm sm:text-sm focus:outline-none placeholder:text-slate-400 focus:ring-2 focus:ring-sky-500 ring-1 ring-slate-200">
+                                <a href="{{ associations.associationWebsite }}" target="_blank" class="text-center">
+                                    {{ associations.associationWebsite }}
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {#<div class="flex flex-col w-64">
+                    <div class="mt-2 appearance-none text-slate-900 bg-white rounded-md block w-full px-3 h-10 shadow-sm sm:text-sm focus:outline-none placeholder:text-slate-400 focus:ring-2 focus:ring-sky-500 ring-1 ring-slate-200">
+                        {{ form_label(form.association_address) }}
+                        {{ form_errors(form.association_address) }}
+                        {{ form_widget(form.association_address) }}
+                    </div>
+                    <div class="mt-2 appearance-none text-slate-900 bg-white rounded-md block w-full px-3 h-10 shadow-sm sm:text-sm focus:outline-none placeholder:text-slate-400 focus:ring-2 focus:ring-sky-500 ring-1 ring-slate-200">
+                        {{ form_label(form.association_city) }}
+                        {{ form_errors(form.association_city) }}
+                        {{ form_widget(form.association_city) }}
+                    </div>
+                    <div class="mt-2 appearance-none text-slate-900 bg-white rounded-md block w-full px-3 h-10 shadow-sm sm:text-sm focus:outline-none placeholder:text-slate-400 focus:ring-2 focus:ring-sky-500 ring-1 ring-slate-200">
+                        {{ form_label(form.association_zipcode) }}
+                        {{ form_errors(form.association_zipcode) }}
+                        {{ form_widget(form.association_zipcode) }}
+                    </div>
+                </div>#}
             </div>
-        {% endif %}
-    {% endfor %}
+    {% endif %}
+    <div class="flex flex-wrap gap-3 mt-32">
+        {% for material in materials %}
+            {% if material.asso.id == associations.id %}
+                <div class="flex flex-col items-center justify-center mb-5">
+                    <div class="flex flex-col shadow-md cursor-pointer w-96 hover:-translate-y-1 duration-300">
+                        <div class="inline relative group h-48">
+                            <img class="absolute rounded-t object-cover h-full w-full"
+                                 src="{{ asset('uploads/images/' ~ material.materialImg) }}"
+                                 alt="photo du produit {{ material.materialName }}" />
 
-    {% for deal in deals %}
+                            <div class="flex flex-row absolute justify-end
+                        h-16 w-full bottom-0 px-3 space-x-2
+                        bg-none opacity-0 group-hover:opacity-100
+                        group-hover:bg-gradient-to-t from-black/20 via-orange-600/20 to-transparent
+                        transition-all ease-in-out duration-200 delay-100">
+
+                                <button class="bg-gray-50/10 rounded-full
+                            px-1 h-9 w-9 my-auto hover:bg-orange-50/20
+                            transition-colors duration-200">
+                                    <i class="mdi mdi-playlist-plus text-xl text-gray-200
+                                hover:text-white transition-all duration-200"
+                                       title="Add to Bookmarks"></i>
+                                </button>
+
+                                <button class="bg-gray-50/10 rounded-full
+                            px-1 h-9 w-9 my-auto hover:bg-orange-50/20
+                            transition-colors duration-200">
+                                    <i class="mdi mdi-heart text-xl text-gray-200 p-1
+                                hover:text-white transition-all duration-200"
+                                       title="Add to Favorites"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="flex flex-col bg-white rounded-b p-3">
+                            <div class="text-sm font-semibold text-gray-900 hover:underline truncate">
+                                {{ material.materialDescription }}
+                            </div>
+
+                            <div class="text-xxs text-gray-400 truncate mt-1">
+                                par
+                                <a class="font-semibold hover:underline">{{ material.asso.associationName }}</a>
+                            </div>
+
+                            <div class="text-sm text-gray-600 font-bold mt-4 mb-1">
+                                $23
+                            </div>
+
+                            <div class="flex flex-row mt-2">
+                                <div class="flex flex-col flex-auto">
+                                    <div class="flex flex-row group">
+                                        <i class="mdi mdi-star text-xs text-amber-400
+                                hover:text-amber-500 transition-all duration-200"
+                                           title="Worst"></i>
+
+                                        <i class="mdi mdi-star text-xs text-amber-400
+                                hover:text-amber-500 transition-all duration-200"
+                                           title="Bad"></i>
+
+                                        <i class="mdi mdi-star text-xs text-amber-400
+                                hover:text-amber-500 transition-all duration-200"
+                                           title="Not Bad"></i>
+
+                                        <i class="mdi mdi-star text-xs text-amber-400
+                                hover:text-amber-500 transition-all duration-200"
+                                           title="Good"></i>
+
+                                        <i class="mdi mdi-star text-xs text-amber-400
+                                hover:text-amber-500 transition-all duration-200"
+                                           title="Awesome"></i>
+
+                                        <div class="text-xxs text-gray-400 ml-1 hover:underline">
+                                            Publier le {{ material.materialCreatedAt|date('d/m/Y') }}
+                                        </div>
+                                    </div>
+
+                                    <div class="text-xxs text-gray-400 mt-1" title="34k Downlaods in this year">
+                                        34 vues
+                                    </div>
+                                </div>
+
+                                <div class="flex flex-row flex-auto justify-end">
+
+                                    <a class="flex text-xs border px-3 my-auto py-2
+                            border-amber-500 group hover:bg-amber-500
+                            rounded-xss
+                            transition-all duration-200">
+
+                                        <div class="text-xxs text-amber-700 font-semibold ml-2
+                                group-hover:text-white delay-100">
+                                            Voir l'annonce
+                                        </div>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
+        {% endfor %}
+    </div>
+        {% for deal in deals %}
         {% if app.user.asso.id == app.user.asso.deals.owner.id %}
             {# <p>{{ deal.dealCreatedat }}</p>
             <p>{{ deal.dealUpdatedat }}</p> #}
             <p>{{ deal.dealContent }}</p>
         {% endif %}
     {% endfor %}
-
-
-    
-    {% for user in users %}
-        {% if user.asso.id == app.user.asso.id %}
-            <div class="container">
-                <h1>Profil {{ user.username }}</h1>
-                <a href="{{ path('app_user_edit', {'id': user.id}) }}">Modifier</a>
-            </div>
-        {% endif %}
-    {% endfor %}
+</div>
 
 {% endblock %}
