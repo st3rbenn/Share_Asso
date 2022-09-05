@@ -106,7 +106,7 @@ class AssociationController extends AbstractController
                 $association->setAssociationImg($fileName);
                 $associationRepository->add($association);
             }
-            return $this->redirectToRoute('app_association_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('app_association_index',['id' => $association->getId()], Response::HTTP_SEE_OTHER);
         }
 
         return $this->renderForm('association/edit.html.twig', [
