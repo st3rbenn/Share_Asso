@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Association;
 use App\Entity\Deal;
 use App\Entity\Material;
 use App\Form\MaterialType;
@@ -10,6 +11,10 @@ use Symfony\Component\Mime\Email;
 use App\Repository\DealRepository;
 use Symfony\Component\Mime\Address;
 use App\Repository\MaterialRepository;
+use App\Repository\DealRepository;
+use App\Service\FileUploader;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use App\Repository\AssociationRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Mailer\MailerInterface;
@@ -81,7 +86,6 @@ class MaterialController extends AbstractController
                 $materialRepository->add($material);
             }
             $this->addFlash('success', 'Votre matériel a bien été ajouté');
-
             $email = (new Email())
                 ->from(new Address('test@example.com'))
                 ->to('test@example.com')
@@ -90,7 +94,7 @@ class MaterialController extends AbstractController
                 ->html('<p>Un nouveau matériel a été ajouté sur votre site</p>');
             $mailer->send($email);
 
-            return $this->redirectToRoute('app_association_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('app_association_index', ['id' => $material->getAsso()->getId()], Response::HTTP_SEE_OTHER);
         }
         else if($form->isSubmitted() && !$form->isValid()) {
             $this->addFlash('danger', 'Une erreur est survenue lors de l\'ajout de votre matériel');
@@ -101,9 +105,6 @@ class MaterialController extends AbstractController
             'form' => $form,
         ]);
     }
-
-
-
 
     /**
      * @Route("/{id}/edit", name="app_material_edit", methods={"GET", "POST"})

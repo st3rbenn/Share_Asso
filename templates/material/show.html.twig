@@ -1,7 +1,6 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}Material{% endblock %}
-
 {% block body %}
     <h1 class="font-medium">Material</h1>
     <div class="overflow-hidden rounded-lg bg-white shadow">
@@ -24,8 +23,6 @@
             <h3 class="font-medium">Modifiée le</h3>
             <h3>{{ material.materialUpdatedat ? material.materialUpdatedat|date('d-m-y') : '' }}</h3>
         </div>
-
-
 
 
 {#    <a href="{{ path('app_material_index', {'id' : association.id}) }}">back to list</a>#}
