@@ -3,59 +3,53 @@
 {% block title %}Material{% endblock %}
 
 {% block body %}
-    <h1>Material</h1>
+    <h1 class="font-medium">Material</h1>
+    <div class="overflow-hidden rounded-lg bg-white shadow">
+        <div class="px-4 py-5 sm:p-6">
+            <h3 class="font-medium">Nom</h3>
+            <h3>{{ material.materialName }}</h3>
+        </div>
+        <div class="px-4 py-5 sm:p-6">
+            <h3 class="font-medium">Description</h3>
+            <h3>{{ material.materialDescription }}</h3>
+        </div>
+        <div class="px-4 py-5 sm:p-6">
+            <h3>{{ material.materialImg }}</h3>
+        </div>
+        <div class="px-4 py-5 sm:p-6">
+            <h3 class="font-medium">Créée le</h3>
+            <h3>{{ material.materialCreatedat ? material.materialCreatedat|date('d-m-y') : '' }}</h3>
+        </div>
+        <div class="px-4 py-5 sm:p-6">
+            <h3 class="font-medium">Modifiée le</h3>
+            <h3>{{ material.materialUpdatedat ? material.materialUpdatedat|date('d-m-y') : '' }}</h3>
+        </div>
 
-    <table class="table">
-        <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ material.id }}</td>
-            </tr>
-            <tr>
-                <th>Material_name</th>
-                <td>{{ material.materialName }}</td>
-            </tr>
-            <tr>
-                <th>Material_description</th>
-                <td>{{ material.materialDescription }}</td>
-            </tr>
-            <tr>
-                <th>Material_img</th>
-                <td>{{ material.materialImg }}</td>
-            </tr>
-            <tr>
-                <th>Material_createdat</th>
-                <td>{{ material.materialCreatedat ? material.materialCreatedat|date('Y-m-d H:i:s') : '' }}</td>
-            </tr>
-            <tr>
-                <th>Material_updatedat</th>
-                <td>{{ material.materialUpdatedat ? material.materialUpdatedat|date('Y-m-d H:i:s') : '' }}</td>
-            </tr>
-        </tbody>
-    </table>
 
-    <a href="{{ path('app_material_index') }}">back to list</a>
 
-    {% if is_granted("ROLE_USER") %}
 
-        {% if app.user.asso.id == material.asso.id %}
-            <a href="{{ path('app_material_edit', {'id': material.id}) }}">edit</a>
+{#    <a href="{{ path('app_material_index', {'id' : association.id}) }}">back to list</a>#}
+        <div class="ml-1 space-x-4 flex justify-center align-middle">
+        {% if is_granted("ROLE_USER") %}
 
-            {{ include('material/_delete_form.html.twig') }}
+            {% if app.user.asso.id == material.asso.id %}
+                <a href="{{ path('app_material_edit', {'id': material.id}) }}" class="inline-block rounded-md border border-transparent py-2 px-4 text-base font-medium text-white hover:bg-opacity-75" style="background-color: #fb4e17;align-self: center;">edit</a>
 
-        {% elseif dealed %}
-            
-            <p>Vous avez déjà fait une demande pour ce matériel</p>
+                {{ include('material/_delete_form.html.twig') }}
+
+            {% elseif dealed %}
+
+                <p>Vous avez déjà fait une demande pour ce matériel</p>
+
+            {% else %}
+                <a href="{{ path('app_deal_new', {'id': material.id}) }}" class="inline-block rounded-md border border-transparent py-2 px-4 text-base font-medium text-white hover:bg-opacity-75" style="background-color: #fb4e17;align-self: center;">DEAL</a>
+
+            {% endif %}
 
         {% else %}
-            <a href="{{ path('app_deal_new', {'id': material.id}) }}">DEAL</a>
-
+            <p>Vous devez être connecté pour pouvoir faire une demande</p>
+            <a href="{{ path('login') }}">Se connecter</a>
         {% endif %}
-
-    {% else %}
-        <p>Vous devez être connecté pour pouvoir faire une demande</p>
-        <a href="{{ path('login') }}">Se connecter</a>
-    {% endif %}
-    
-    
+        </div>
+    </div>
 {% endblock %}

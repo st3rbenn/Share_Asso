@@ -20,6 +20,26 @@ use Symfony\Component\Routing\Annotation\Route;
 class MaterialController extends AbstractController
 {
     /**
+     * @Route("/{id}", name="app_material_show", requirements={"id"="\d+"}, methods={"GET"})
+     */
+    public function show(Material $material, DealRepository $dealRepository, Deal $deal): Response
+    {
+
+        $deals = $dealRepository->findByMaterial($material);
+        $dealed = [];
+        foreach($deals as $deal) {
+            $dealed = $deal->getAsso() === $this->getUser()->getAsso() ? true : false;
+        }
+
+        return $this->render('material/show.html.twig', [
+            'material' => $material,
+            'deal' => $deal,
+            'deals' => $deals,
+            'dealed' => $dealed,
+        ]);
+    }
+    
+    /**
      * @Route("/", name="app_material_index", methods={"GET"})
      */
     public function index(MaterialRepository $materialRepository): Response
@@ -71,24 +91,7 @@ class MaterialController extends AbstractController
     }
 
 
-    /**
-     * @Route("/{id}", name="app_material_show", requirements={"id"="\d+"}, methods={"GET"})
-     */
-    public function show(Material $material, DealRepository $dealRepository, Deal $deal): Response
-    {
-        $deals = $dealRepository->findByMaterial($material);
 
-        foreach($deals as $deal) {
-           $dealed =$deal->getAsso() === $this->getUser()->getAsso() ? true : false;
-        }
-
-        return $this->render('material/show.html.twig', [
-            'material' => $material,
-            'deal' => $deal,
-            'deals' => $deals,
-            'dealed' => $dealed,
-        ]);
-    }
 
     /**
      * @Route("/{id}/edit", name="app_material_edit", methods={"GET", "POST"})
