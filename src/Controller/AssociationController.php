@@ -52,6 +52,30 @@ class AssociationController extends AbstractController
         ]);
     }
 
+    
+    /**
+     * @Route("/{id}", name="app_association_index", methods={"GET"})
+     */
+    public function index(
+        MaterialRepository $materialRepository,
+        UserRepository $userRepository,
+        DealRepository $dealRepository,
+        Association $association
+    ): Response
+    {
+        $users = $userRepository->findAll();
+        $deals = $dealRepository->findAll();
+        $materials = $materialRepository->findAll();
+        return $this->render('association/index.html.twig', [
+            'associations' => $association,
+            'materials' => $materials,
+            'users' => $users,
+            'deals' => $deals,
+        ]);
+    }
+
+    
+
     /**
      * @Route("/{id}", name="app_association_index", methods={"GET"})
      */

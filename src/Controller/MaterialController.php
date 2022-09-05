@@ -6,14 +6,21 @@ use App\Entity\Association;
 use App\Entity\Deal;
 use App\Entity\Material;
 use App\Form\MaterialType;
+use App\Service\FileUploader;
+use Symfony\Component\Mime\Email;
+use App\Repository\DealRepository;
+use Symfony\Component\Mime\Address;
 use App\Repository\MaterialRepository;
 use App\Repository\DealRepository;
 use App\Service\FileUploader;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use App\Repository\AssociationRepository;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 /**
  * @Route("/material")
@@ -57,7 +64,9 @@ class MaterialController extends AbstractController
     public function new(
         FileUploader $fileUploader,
         Request $request,
-        MaterialRepository $materialRepository
+        MaterialRepository $materialRepository,
+        AssociationRepository $associationRepository,
+        MailerInterface $mailer
     ): Response
     {
         $material = new Material();
@@ -77,6 +86,13 @@ class MaterialController extends AbstractController
                 $materialRepository->add($material);
             }
             $this->addFlash('success', 'Votre matériel a bien été ajouté');
+            $email = (new Email())
+                ->from(new Address('test@example.com'))
+                ->to('test@example.com')
+                ->subject('Nouveau matériel ajouté')
+                ->text('Un nouveau matériel a été ajouté sur votre site')
+                ->html('<p>Un nouveau matériel a été ajouté sur votre site</p>');
+            $mailer->send($email);
 
             return $this->redirectToRoute('app_association_index', ['id' => $material->getAsso()->getId()], Response::HTTP_SEE_OTHER);
         }
