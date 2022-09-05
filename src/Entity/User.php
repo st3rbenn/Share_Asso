@@ -50,6 +50,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     private $user_lastname;
 
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $user_avatar;
+
     public function __construct()
     {
         $this->roles = ["ROLE_USER"];
@@ -176,6 +181,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setUserLastname(?string $user_lastname): self
     {
         $this->user_lastname = $user_lastname;
+
+        return $this;
+    }
+
+    public function getUserAvatar(): ?string
+    {
+        return $this->user_avatar;
+    }
+
+    public function setUserAvatar(?string $user_avatar): self
+    {
+        $this->user_avatar = $user_avatar;
 
         return $this;
     }

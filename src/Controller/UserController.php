@@ -8,6 +8,7 @@ use Symfony\Component\Mime\Email;
 use App\Repository\UserRepository;
 use App\Repository\AssociationRepository;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
+use App\Service\FileUploader;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\HttpFoundation\Response;
@@ -34,7 +35,8 @@ class UserController extends AbstractController
     /**
      * @Route("/{id}/new", name="app_user_new", requirements={"id"="\d+"}, methods={"GET", "POST"})
      */
-    public function new(Request $request, UserRepository $userRepository, AssociationRepository $associationRepository,UserPasswordHasherInterface $userPasswordHasherInterface, int $id, MailerInterface $mailer): Response
+    public function new(Request $request, UserRepository $userRepository, AssociationRepository $associationRepository,UserPasswordHasherInterface $userPasswordHasherInterface, FileUploader $fileUploader, int $id, MailerInterface $mailer): Response
+
     {
         $user = new User();
         $user->setAsso($associationRepository->find($id));
@@ -44,9 +46,6 @@ class UserController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $user->setPassword($userPasswordHasherInterface->hashPassword($user, $user->getPassword()));
 
-            $userRepository->add($user, true);
-
-            dd($user);
             $message = (new Email())
                 ->from(new Address('test@example.com'))
                 //->to($user->getEmail())
@@ -61,6 +60,14 @@ class UserController extends AbstractController
                 ;
             $mailer->send($message);
 
+            $userRepository->add($user);
+            $file = $form['user_avatar']->getData();
+
+            if($file){
+                $fileName = $fileUploader->upload($file);
+                $user->setUserAvatar($fileName);
+                $userRepository->add($user);
+            }
             $this->addFlash('success', 'Votre compte a bien été créé');
 
             return $this->redirectToRoute('login', [], Response::HTTP_SEE_OTHER);
@@ -89,13 +96,21 @@ class UserController extends AbstractController
     /**
      * @Route("/{id}/edit", name="app_user_edit", methods={"GET", "POST"})
      */
-    public function edit(Request $request, User $user, UserRepository $userRepository): Response
+    public function edit(Request $request, User $user, UserRepository $userRepository, FileUploader $fileUploader): Response
     {
         $form = $this->createForm(RegisterType::class, $user);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $userRepository->add($user, true);
+            $userRepository->add($user);
+
+            $file = $form['user_avatar']->getData();
+
+            if($file){
+                $fileName = $fileUploader->upload($file);
+                $user->setUserAvatar($fileName);
+                $userRepository->add($user);
+            }
 
             return $this->redirectToRoute('app_user_index', [], Response::HTTP_SEE_OTHER);
         }
