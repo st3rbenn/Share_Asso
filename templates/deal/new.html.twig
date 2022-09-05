@@ -3,9 +3,23 @@
 {% block title %}New Deal{% endblock %}
 
 {% block body %}
-    <h1>GG new DEAL</h1>
 
+    {% for message in app.flashes('success') %}
+        <div class="alert alert-success">
+            {{ message }}
+        </div>
+    {% endfor %}
+    {% for message in app.flashes('danger') %}
+        <div class="alert alert-danger">
+            {{ message }}
+        </div>
+    {% endfor %}
+    <h1>DEAL</h1>
 
+    
+    {{ include('deal/_form.html.twig') }}
+
+    
 
     <a href="{{ path('app_deal_index') }}">back to list</a>
 {% endblock %}
