@@ -1,21 +1,25 @@
 <div{{ attributes }}>
-    <input
+    <label for="search" >Recherche</label>
+    <input name="search" id="search"
             type="search"
-            data-model="query"
+            data-model="debounce(300)|query"
             value="{{ query }}"
-{#            data-action="live#update"#}
-            placeholder="Recherche"
+            data-action="live#update"
+            placeholder="Barnum"
     >
+{#    {% if this.materials|length > 0 %}#}
 
-    {% if this.materials|length > 0 %}
         <div data-loading="addClass(opacity-50)">
+            <ul>
             {% for material in this.materials %}
-                <div>
-                    <h4>{{ material.materialName }}</h4>
-                </div>
+                <li>
+                    <a href="{{ path('app_material_show', {'id': material.id}) }}">{{ material.materialName }}</a>
+                    <img src={{material.materialImg}}>
+                </li>
             {% endfor %}
+            </ul>
         </div>
-    {% else %}
-        <div>Ah! No packages found matching "{{ query }}"</div>
-    {% endif %}
+{#    {% else %}#}
+{#        <div>Ah! No packages found matching "{{ query }}"</div>#}
+{#    {% endif %}#}
 </div>

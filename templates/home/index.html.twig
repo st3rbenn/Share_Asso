@@ -13,13 +13,13 @@
     <div>
         {{ component('search') }}
     </div>
-<ul>
-    {% for material in materials %}
-        <li>
-            <a href="{{ path('app_material_show', {'id': material.id}) }}">{{ material.materialName }}</a>
-            <img src={{material.materialImg}}>
-        </li>
-    {% endfor %}
-</ul>
+{#<ul>#}
+{#    {% for material in materials %}#}
+{#        <li>#}
+{#            <a href="{{ path('app_material_show', {'id': material.id}) }}">{{ material.materialName }}</a>#}
+{#            <img src={{material.materialImg}}>#}
+{#        </li>#}
+{#    {% endfor %}#}
+{#</ul>#}
 {% endblock %}
 

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Component;
+namespace App\Components;
 
 use App\Repository\MaterialRepository;
 use Symfony\UX\LiveComponent\Attribute\AsLiveComponent;
@@ -13,14 +13,14 @@ class SearchComponent
     use DefaultActionTrait;
 
     #[LiveProp(writable: true)]
-    public ?string $query = null;
+    public string $query = '';
 
     public function __construct(private MaterialRepository $materialRepository)
     {
     }
 
-    public function getPackages(): array
+    public function getMaterials(): array
     {
-        return $this->materialRepository->findAll($this->query);
+        return $this->materialRepository->search($this->query);
     }
 }

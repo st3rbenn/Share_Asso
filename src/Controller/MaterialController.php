@@ -65,6 +65,7 @@ class MaterialController extends AbstractController
         ]);
     }
 
+
     /**
      * @Route("/{id}", name="app_material_show", requirements={"id"="\d+"}, methods={"GET"})
      */
