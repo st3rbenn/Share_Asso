@@ -40,6 +40,21 @@ class MaterialRepository extends ServiceEntityRepository
         }
     }
 
+    /**
+     * @return Material[] Returns an array of Category objects
+     */
+    public function search($searchTerm): array
+    {
+        if (empty($searchTerm)) {
+            return $this->findAll();
+        }
+
+        return $this->createQueryBuilder('m')
+            ->where('m.material_name LIKE :searchTerm')
+            ->setParameter('searchTerm', '%'.$searchTerm.'%')
+            ->getQuery()
+            ->getResult();
+    }
 
 //    /**
 //     * @return Material[] Returns an array of Material objects
