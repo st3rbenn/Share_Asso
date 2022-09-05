@@ -10,6 +10,7 @@ use App\Repository\DealRepository;
 use App\Repository\MaterialRepository;
 use App\Service\FileUploader;
 use App\Repository\UserRepository;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -20,27 +21,6 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 class AssociationController extends AbstractController
 {
-    /**
-     * @Route("/{id}", name="app_association_index", methods={"GET"})
-     */
-    public function index(
-        MaterialRepository $materialRepository,
-        UserRepository $userRepository,
-        DealRepository $dealRepository,
-        Association $association
-    ): Response
-    {
-        $users = $userRepository->findAll();
-        $deals = $dealRepository->findAll();
-        $materials = $materialRepository->findAll();
-        return $this->render('association/index.html.twig', [
-            'associations' => $association,
-            'materials' => $materials,
-            'users' => $users,
-            'deals' => $deals,
-        ]);
-    }
-
     /**
      * @Route("/new", name="app_association_new", methods={"GET", "POST"})
      */
@@ -53,7 +33,6 @@ class AssociationController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $associationRepository->add($association);
             $file = $form['association_img']->getData();
-
             if($file){
                 $fileName = $fileUploader->upload($file);
                 $association->setAssociationImg($fileName);
@@ -74,12 +53,23 @@ class AssociationController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="app_association_show", methods={"GET"})
+     * @Route("/{id}", name="app_association_index", methods={"GET"})
      */
-    public function show(Association $association): Response
+    public function index(
+        MaterialRepository $materialRepository,
+        UserRepository $userRepository,
+        DealRepository $dealRepository,
+        Association $association
+    ): Response
     {
-        return $this->render('association/show.html.twig', [
-            'association' => $association,
+        $users = $userRepository->findAll();
+        $deals = $dealRepository->findAll();
+        $materials = $materialRepository->findAll();
+        return $this->render('association/index.html.twig', [
+            'associations' => $association,
+            'materials' => $materials,
+            'users' => $users,
+            'deals' => $deals,
         ]);
     }
 

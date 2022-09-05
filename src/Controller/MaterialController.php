@@ -2,13 +2,14 @@
 
 namespace App\Controller;
 
+use App\Entity\Association;
 use App\Entity\Deal;
 use App\Entity\Material;
 use App\Form\MaterialType;
 use App\Repository\MaterialRepository;
-use App\Repository\AssociationRepository;
 use App\Repository\DealRepository;
 use App\Service\FileUploader;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -56,8 +57,7 @@ class MaterialController extends AbstractController
     public function new(
         FileUploader $fileUploader,
         Request $request,
-        MaterialRepository $materialRepository,
-        AssociationRepository $associationRepository
+        MaterialRepository $materialRepository
     ): Response
     {
         $material = new Material();
@@ -78,7 +78,7 @@ class MaterialController extends AbstractController
             }
             $this->addFlash('success', 'Votre matériel a bien été ajouté');
 
-            return $this->redirectToRoute('app_association_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('app_association_index', ['id' => $material->getAsso()->getId()], Response::HTTP_SEE_OTHER);
         }
         else if($form->isSubmitted() && !$form->isValid()) {
             $this->addFlash('danger', 'Une erreur est survenue lors de l\'ajout de votre matériel');
@@ -89,9 +89,6 @@ class MaterialController extends AbstractController
             'form' => $form,
         ]);
     }
-
-
-
 
     /**
      * @Route("/{id}/edit", name="app_material_edit", methods={"GET", "POST"})
