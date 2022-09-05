@@ -1,3 +1,6 @@
 #index:
 #    path: /
 #    controller: App\Controller\DefaultController::index
+
+live_component:
+    resource: '@LiveComponentBundle/Resources/config/routing/Live_component.xml'
