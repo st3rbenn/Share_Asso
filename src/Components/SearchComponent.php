@@ -13,7 +13,7 @@ class SearchComponent
     use DefaultActionTrait;
 
     #[LiveProp(writable: true)]
-    public string $query = '';
+    public ?string $query = NULL;
 
     public function __construct(private MaterialRepository $materialRepository)
     {

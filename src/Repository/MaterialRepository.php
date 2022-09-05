@@ -45,7 +45,7 @@ class MaterialRepository extends ServiceEntityRepository
     public function search($searchTerm): array
     {
         if (empty($searchTerm)) {
-            return [];
+            return $this->findAll();
         }
 
         return $this->createQueryBuilder('m')

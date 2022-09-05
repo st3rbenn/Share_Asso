@@ -5,21 +5,31 @@
             data-model="debounce(300)|query"
             value="{{ query }}"
             data-action="live#update"
-            placeholder="Barnum"
+            placeholder="ex : Barnum"
     >
-{#    {% if this.materials|length > 0 %}#}
-
+    {% if this.materials|length > 0 %}
+{#        {% if query is not defined %}#}
+{#        <ul>#}
+{#            {% for material in this.materials %}#}
+{#                <li>#}
+{#                    <a href="{{ path('app_material_show', {'id': material.id}) }}">{{ material.materialName }}</a>#}
+{#                    <img src="{{material.materialImg}}" alt="Image du matériel">#}
+{#                </li>#}
+{#            {% endfor %}#}
+{#        </ul>#}
+{#    {% else %}#}
         <div data-loading="addClass(opacity-50)">
             <ul>
             {% for material in this.materials %}
                 <li>
                     <a href="{{ path('app_material_show', {'id': material.id}) }}">{{ material.materialName }}</a>
-                    <img src={{material.materialImg}}>
+                    <img src="{{material.materialImg}}" alt="Image du matériel">
                 </li>
             {% endfor %}
             </ul>
         </div>
+{#        {% endif %}#}
 {#    {% else %}#}
 {#        <div>Ah! No packages found matching "{{ query }}"</div>#}
-{#    {% endif %}#}
+    {% endif %}
 </div>
