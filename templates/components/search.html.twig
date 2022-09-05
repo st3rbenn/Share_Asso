@@ -1,0 +1,21 @@
+<div{{ attributes }}>
+    <input
+            type="search"
+            data-model="query"
+            value="{{ query }}"
+{#            data-action="live#update"#}
+            placeholder="Recherche"
+    >
+
+    {% if this.materials|length > 0 %}
+        <div data-loading="addClass(opacity-50)">
+            {% for material in this.materials %}
+                <div>
+                    <h4>{{ material.materialName }}</h4>
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <div>Ah! No packages found matching "{{ query }}"</div>
+    {% endif %}
+</div>
