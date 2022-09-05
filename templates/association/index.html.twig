@@ -10,7 +10,6 @@
     {% if associations.id == app.user.asso.id %}
         <div class="text-center">
             <h1 class="text-lg font-medium leading-6 text-gray-900"> {{ associations.associationName }}</h1>
-            <a href="{{ path('app_association_edit', {'id': associations.id}) }}">Modifier</a>
         </div>
             <div class="relative flex flex-1 items-center justify-start pb-16">
                 <div class="w-52 h-52 rounded-full overflow-hidden border-2 dark:border-white border-gray-900">
@@ -42,6 +41,9 @@
                                 </a>
                             </div>
                         </div>
+                    </div>
+                    <div>
+                        <a href="{{ path('app_association_edit', {'id': associations.id}) }}" class="inline-block rounded-md border border-transparent py-2 px-4 text-base font-medium text-white hover:bg-opacity-75" style="background-color: #fb4e17;align-self: center;">Modifier</a>
                     </div>
                 </div>
                 {#<div class="flex flex-col w-64">
@@ -145,7 +147,7 @@
 
                                 <div class="flex flex-row flex-auto justify-end">
 
-                                    <a class="flex text-xs border px-3 my-auto py-2
+                                    <a href="{{ path('app_material_show', {"id" : material.id}) }}" class="flex text-xs border px-3 my-auto py-2
                             border-amber-500 group hover:bg-amber-500
                             rounded-xss
                             transition-all duration-200">
