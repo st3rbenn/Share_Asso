@@ -4,12 +4,16 @@ namespace App\Controller;
 
 use App\Entity\User;
 use App\Form\RegisterType;
+use Symfony\Component\Mime\Email;
 use App\Repository\UserRepository;
 use App\Repository\AssociationRepository;
+use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Mime\Address;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 /**
@@ -30,7 +34,7 @@ class UserController extends AbstractController
     /**
      * @Route("/{id}/new", name="app_user_new", requirements={"id"="\d+"}, methods={"GET", "POST"})
      */
-    public function new(Request $request, UserRepository $userRepository, AssociationRepository $associationRepository,UserPasswordHasherInterface $userPasswordHasherInterface, int $id): Response
+    public function new(Request $request, UserRepository $userRepository, AssociationRepository $associationRepository,UserPasswordHasherInterface $userPasswordHasherInterface, int $id, MailerInterface $mailer): Response
     {
         $user = new User();
         $user->setAsso($associationRepository->find($id));
@@ -41,6 +45,22 @@ class UserController extends AbstractController
             $user->setPassword($userPasswordHasherInterface->hashPassword($user, $user->getPassword()));
 
             $userRepository->add($user, true);
+
+            dd($user);
+            $message = (new Email())
+                ->from(new Address('test@example.com'))
+                //->to($user->getEmail())
+                ->to('test@gmail.com')
+                ->subject('Bienvenue sur le site de Share Asso')
+                ->text('Merci de vous être inscrit sur notre site !')
+                ->html('<p>Merci de vous être inscrit sur notre site !</p>');
+                //->html('email/register.html.twig')
+                //->context([
+                    //'user' => $user,
+                //]);
+                ;
+            $mailer->send($message);
+
             $this->addFlash('success', 'Votre compte a bien été créé');
 
             return $this->redirectToRoute('login', [], Response::HTTP_SEE_OTHER);
