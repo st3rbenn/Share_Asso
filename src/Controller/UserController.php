@@ -16,6 +16,8 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Mime\Address;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
+
 
 /**
  * @Route("/user")
@@ -23,6 +25,7 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 class UserController extends AbstractController
 {
     /**
+     * @isGranted("ROLE_USER")
      * @Route("/", name="app_user_index", methods={"GET"})
      */
     public function index(UserRepository $userRepository): Response
@@ -42,21 +45,20 @@ class UserController extends AbstractController
         $user->setAsso($associationRepository->find($id));
         $form = $this->createForm(RegisterType::class, $user);
         $form->handleRequest($request);
+    
 
         if ($form->isSubmitted() && $form->isValid()) {
             $user->setPassword($userPasswordHasherInterface->hashPassword($user, $user->getPassword()));
 
-            $message = (new Email())
+            $message = (new TemplatedEmail())
                 ->from(new Address('test@example.com'))
                 //->to($user->getEmail())
-                ->to('test@gmail.com')
+                ->to($this->getUser()->getEmail())
                 ->subject('Bienvenue sur le site de Share Asso')
-                ->text('Merci de vous être inscrit sur notre site !')
-                ->html('<p>Merci de vous être inscrit sur notre site !</p>');
-                //->html('email/register.html.twig')
-                //->context([
-                    //'user' => $user,
-                //]);
+                ->htmlTemplate('email/register.html.twig')
+                ->context([
+                    'user' => $user,
+                ])
                 ;
             $mailer->send($message);
 
@@ -84,6 +86,7 @@ class UserController extends AbstractController
     }
 
     /**
+     * @isGranted("ROLE_ADMIN")
      * @Route("/{id}", name="app_user_show", methods={"GET"})
      */
     public function show(User $user): Response
@@ -94,6 +97,7 @@ class UserController extends AbstractController
     }
 
     /**
+     * @isGranted("ROLE_ADMIN")
      * @Route("/{id}/edit", name="app_user_edit", methods={"GET", "POST"})
      */
     public function edit(Request $request, User $user, UserRepository $userRepository, FileUploader $fileUploader): Response
@@ -122,6 +126,7 @@ class UserController extends AbstractController
     }
 
     /**
+     * @isGranted("ROLE_ADMIN")
      * @Route("/{id}", name="app_user_delete", methods={"POST"})
      */
     public function delete(Request $request, User $user, UserRepository $userRepository): Response

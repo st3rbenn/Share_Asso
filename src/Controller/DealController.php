@@ -10,13 +10,17 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
+
 
 /**
+ * @isGranted("ROLE_USER")
  * @Route("/deal")
  */
 class DealController extends AbstractController
 {
     /**
+     * @isGranted("ROLE_ADMIN")
      * @Route("/", name="app_deal_index", methods={"GET"})
      */
     public function index(DealRepository $dealRepository): Response
@@ -42,7 +46,7 @@ class DealController extends AbstractController
             $dealRepository->add($deal, true);
             $this->addFlash('success', 'Votre proposition a bien été envoyée');
 
-            return $this->redirectToRoute('app_deal_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('home', [], Response::HTTP_SEE_OTHER);
         }
         else if($form->isSubmitted() && !$form->isValid()){
             $this->addFlash('danger', 'Une erreur est survenue lors de l\'envoi de votre proposition');
@@ -54,15 +58,7 @@ class DealController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/{id}", name="app_deal_show", methods={"GET"})
-     */
-    public function show(Deal $deal): Response
-    {
-        return $this->render('deal/show.html.twig', [
-            'deal' => $deal,
-        ]);
-    }
+    
 
     /**
      * @Route("/{id}/edit", name="app_deal_edit", methods={"GET", "POST"})
@@ -75,7 +71,7 @@ class DealController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $dealRepository->add($deal, true);
 
-            return $this->redirectToRoute('app_deal_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('home', [], Response::HTTP_SEE_OTHER);
         }
 
         return $this->renderForm('deal/edit.html.twig', [
@@ -93,6 +89,17 @@ class DealController extends AbstractController
             $dealRepository->remove($deal, true);
         }
 
-        return $this->redirectToRoute('app_deal_index', [], Response::HTTP_SEE_OTHER);
+        return $this->redirectToRoute('home', [], Response::HTTP_SEE_OTHER);
+    }
+
+    /**
+     * @isGranted("ROLE_ADMIN")
+     * @Route("/{id}", name="app_deal_show", methods={"GET"})
+     */
+    public function show(Deal $deal): Response
+    {
+        return $this->render('deal/show.html.twig', [
+            'deal' => $deal,
+        ]);
     }
 }

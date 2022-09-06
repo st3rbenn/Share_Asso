@@ -25,17 +25,17 @@ class Association
     private $association_name;
 
     /**
-     * @ORM\OneToMany(targetEntity=User::class, mappedBy="asso")
+     * @ORM\OneToMany(targetEntity=User::class, mappedBy="asso", orphanRemoval=true)
      */
     private $users;
 
     /**
-     * @ORM\OneToMany(targetEntity=Material::class, mappedBy="asso")
+     * @ORM\OneToMany(targetEntity=Material::class, mappedBy="asso", orphanRemoval=true)
      */
     private $materials;
 
     /**
-     * @ORM\OneToMany(targetEntity=Deal::class, mappedBy="asso")
+     * @ORM\OneToMany(targetEntity=Deal::class, mappedBy="asso", orphanRemoval=true)
      */
     private $deals;
 

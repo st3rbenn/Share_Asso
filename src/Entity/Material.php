@@ -31,7 +31,7 @@ class Material
     private $material_description;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $material_img;
 
@@ -57,7 +57,7 @@ class Material
     private $asso;
 
     /**
-     * @ORM\OneToMany(targetEntity=Deal::class, mappedBy="material")
+     * @ORM\OneToMany(targetEntity=Deal::class, mappedBy="material", orphanRemoval=true)
      */
     private $deals;
 
