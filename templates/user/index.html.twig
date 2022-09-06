@@ -3,40 +3,30 @@
 {% block title %}User index{% endblock %}
 
 {% block body %}
-    <h1>User index</h1>
+    <h1 class="text-lg font-medium leading-6 text-gray-900 mb-3 text-center pt-5">Profil utilisateur</h1>
+<div class="overflow-hidden shadow sm:rounded-lg mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 pb-6">
+    <div class="w-52 h-52 rounded mx-auto d-block overflow-hidden border-2 dark:border-white border-gray-900">
+        <h3><img src="{{ asset('uploads/images/' ~ app.user.userAvatar) }}" alt="Photo de bien" class="w-full h-full object-cover"></h3>
+    </div>
+    <div class="grid grid-rows-1 grid-flow-col gap-3 justify-items-center">
+        <div>
+            <h3 class="text-lg font-medium leading-6 text-gray-900">Prénom</h3>
+            <h3 class="font-bold">{{ app.user.userFirstname }}</h3>
+        </div>
+        <div>
+            <h3 class="font-medium">Nom</h3>
+            <h3 class="font-bold">{{ app.user.userLastname }}</h3>
+        </div>
+        <div>
+            <h3 class="font-medium">Email</h3>
+            <h3 class="font-bold">{{ app.user.email }}</h3>
+        </div>
+    </div>
+    <div class="flex flex-row gap-2 mt-5">
+        <a href="{{ path('app_user_edit', {'id': app.user.id}) }}" class="inline-block rounded-md border border-transparent py-2 px-4 text-base font-medium text-white hover:bg-opacity-75" style="background-color: #fb4e17;align-self: center;">Modifier</a>
+        {{ include('user/_delete_form.html.twig') }}
+    </div>
 
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>Email</th>
-                <th>Roles</th>
-                <th>Password</th>
-                <th>User_firstname</th>
-                <th>User_lastname</th>
-                <th>actions</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for user in users %}
-            <tr>
-                <td>{{ user.id }}</td>
-                <td>{{ user.email }}</td>
-                <td>{{ user.roles ? user.roles|json_encode : '' }}</td>
-                <td>{{ user.password }}</td>
-                <td>{{ user.userFirstname }}</td>
-                <td>{{ user.userLastname }}</td>
-                <td>
-                    <a href="{{ path('app_user_show', {'id': user.id}) }}">show</a>
-                    <a href="{{ path('app_user_edit', {'id': user.id}) }}">edit</a>
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="7">no records found</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
+</div>
 
 {% endblock %}
