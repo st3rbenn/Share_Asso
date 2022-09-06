@@ -37,6 +37,10 @@
             {% elseif dealed %}
 
                 <p>Vous avez déjà fait une demande pour ce matériel</p>
+                <p>Souhaitez vous le moddifier ?</p>
+                {% for deal in deals %}
+                    <a href="{{ path('app_deal_edit', {'id': deal.id}) }}" class="inline-block rounded-md border border-transparent py-2 px-4 text-base font-medium text-white hover:bg-opacity-75" style="background-color: #fb4e17;align-self: center;">Modifier</a>
+                {% endfor %}
 
             {% else %}
                 <a href="{{ path('app_deal_new', {'id': material.id}) }}" class="inline-block rounded-md border border-transparent py-2 px-4 text-base font-medium text-white hover:bg-opacity-75" style="background-color: #fb4e17;align-self: center;">DEAL</a>

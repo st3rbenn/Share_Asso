@@ -2,22 +2,26 @@
 
 namespace App\Controller;
 
-use App\Entity\Association;
 use App\Entity\Deal;
+use App\Entity\User;
 use App\Entity\Material;
 use App\Form\MaterialType;
+use App\Entity\Association;
+use App\Service\FileUploader;
 use Symfony\Component\Mime\Email;
 use App\Repository\DealRepository;
 use Symfony\Component\Mime\Address;
 use App\Repository\MaterialRepository;
-use App\Service\FileUploader;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use App\Repository\AssociationRepository;
+use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
+
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 
 /**
  * @Route("/material")
@@ -27,7 +31,7 @@ class MaterialController extends AbstractController
     /**
      * @Route("/{id}", name="app_material_show", requirements={"id"="\d+"}, methods={"GET"})
      */
-    public function show(Material $material, DealRepository $dealRepository, Deal $deal): Response
+    public function show(Material $material, DealRepository $dealRepository): Response
     {
 
         $deals = $dealRepository->findByMaterial($material);
@@ -38,13 +42,13 @@ class MaterialController extends AbstractController
 
         return $this->render('material/show.html.twig', [
             'material' => $material,
-            'deal' => $deal,
             'deals' => $deals,
             'dealed' => $dealed,
         ]);
     }
     
     /**
+     * @isGranted("ROLE_ADMIN")
      * @Route("/", name="app_material_index", methods={"GET"})
      */
     public function index(MaterialRepository $materialRepository): Response
@@ -56,6 +60,7 @@ class MaterialController extends AbstractController
     }
 
     /**
+     * @isGranted("ROLE_USER")
      * @Route("/new", name="app_material_new")
      */
     public function new(
@@ -71,6 +76,8 @@ class MaterialController extends AbstractController
         $form = $this->createForm(MaterialType::class, $material);
         $form->handleRequest($request);
 
+        //dd($user = $this->getUser()->getEmail());
+
         if ($form->isSubmitted() && $form->isValid()) {
             $material->setAsso($this->getUser()->getAsso());
             $materialRepository->add($material);
@@ -83,12 +90,17 @@ class MaterialController extends AbstractController
                 $materialRepository->add($material);
             }
             $this->addFlash('success', 'Votre matériel a bien été ajouté');
-            $email = (new Email())
-                ->from(new Address('test@example.com'))
-                ->to('test@example.com')
+
+            
+
+            $email = (new TemplatedEmail())
+                ->from(new Address('shareasso@example.com'))
+                //->to('brehierwilliam@gmail.com')
+                ->to($this->getUser()->getEmail())
+
                 ->subject('Nouveau matériel ajouté')
-                ->text('Un nouveau matériel a été ajouté sur votre site')
-                ->html('<p>Un nouveau matériel a été ajouté sur votre site</p>');
+                ->htmlTemplate('email/new_material.html.twig');
+                -
             $mailer->send($email);
 
             return $this->redirectToRoute('app_association_index', ['id' => $material->getAsso()->getId()], Response::HTTP_SEE_OTHER);
@@ -104,6 +116,7 @@ class MaterialController extends AbstractController
     }
 
     /**
+     * @isGranted("ROLE_USER")
      * @Route("/{id}/edit", name="app_material_edit", methods={"GET", "POST"})
      */
     public function edit(
@@ -137,7 +150,8 @@ class MaterialController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="app_material_delete", methods={"POST"})
+     * @isGranted("ROLE_USER")
+     * @Route("/delete/{id}", name="app_material_delete", methods={"POST"})
      */
     public function delete(Request $request, Material $material, MaterialRepository $materialRepository): Response
     {
@@ -145,6 +159,6 @@ class MaterialController extends AbstractController
             $materialRepository->remove($material, true);
         }
 
-        return $this->redirectToRoute('app_material_index', [], Response::HTTP_SEE_OTHER);
+        return $this->redirectToRoute('app_association_index', ['id' => $material->getAsso()->getId()], Response::HTTP_SEE_OTHER);
     }
 }
