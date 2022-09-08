@@ -38,7 +38,7 @@ class UserController extends AbstractController
     /**
      * @Route("/{id}/new", name="app_user_new", requirements={"id"="\d+"}, methods={"GET", "POST"})
      */
-    public function new(Request $request, UserRepository $userRepository, AssociationRepository $associationRepository,UserPasswordHasherInterface $userPasswordHasherInterface, FileUploader $fileUploader, int $id, MailerInterface $mailer): Response
+    public function new(Request $request, UserRepository $userRepository, AssociationRepository $associationRepository, UserPasswordHasherInterface $userPasswordHasherInterface, FileUploader $fileUploader, int $id, MailerInterface $mailer): Response
 
     {
         $user = new User();
@@ -53,7 +53,7 @@ class UserController extends AbstractController
             $message = (new TemplatedEmail())
                 ->from(new Address('test@example.com'))
                 //->to($user->getEmail())
-                ->to($this->getUser()->getEmail())
+                ->to($user->getEmail())
                 ->subject('Bienvenue sur le site de Share Asso')
                 ->htmlTemplate('email/register.html.twig')
                 ->context([
@@ -97,15 +97,15 @@ class UserController extends AbstractController
     }
 
     /**
-     * @isGranted("ROLE_ADMIN")
      * @Route("/{id}/edit", name="app_user_edit", methods={"GET", "POST"})
      */
-    public function edit(Request $request, User $user, UserRepository $userRepository, FileUploader $fileUploader): Response
+    public function edit(Request $request, User $user, UserRepository $userRepository, FileUploader $fileUploader, UserPasswordHasherInterface $userPasswordHasherInterface): Response
     {
         $form = $this->createForm(RegisterType::class, $user);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $user->setPassword($userPasswordHasherInterface->hashPassword($user, $user->getPassword()));
             $userRepository->add($user);
 
             $file = $form['user_avatar']->getData();

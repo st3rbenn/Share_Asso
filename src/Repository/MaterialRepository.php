@@ -46,12 +46,19 @@ class MaterialRepository extends ServiceEntityRepository
     public function search($searchTerm): array
     {
         if (empty($searchTerm)) {
-            return $this->findAll();
+            return $this->createQueryBuilder('m')
+                ->where('m.id NOT IN (:deals)')
+                ->setParameter('deals', $this->getEntityManager()->getRepository(Deal::class)->findAll())
+                ->getQuery()
+                ->getResult();
         }
 
         return $this->createQueryBuilder('m')
+            ->orderBy('m.material_createdat', 'DESC')
             ->where('m.material_name LIKE :searchTerm')
+            ->andWhere('m.id NOT IN (:deals)')
             ->setParameter('searchTerm', '%'.$searchTerm.'%')
+            ->setParameter('deals', $this->getEntityManager()->getRepository(Deal::class)->findAll())
             ->getQuery()
             ->getResult();
     }

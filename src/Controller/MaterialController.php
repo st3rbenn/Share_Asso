@@ -76,8 +76,6 @@ class MaterialController extends AbstractController
         $form = $this->createForm(MaterialType::class, $material);
         $form->handleRequest($request);
 
-        //dd($user = $this->getUser()->getEmail());
-
         if ($form->isSubmitted() && $form->isValid()) {
             $material->setAsso($this->getUser()->getAsso());
             $materialRepository->add($material);
@@ -95,13 +93,10 @@ class MaterialController extends AbstractController
 
             $email = (new TemplatedEmail())
                 ->from(new Address('shareasso@example.com'))
-                //->to('brehierwilliam@gmail.com')
                 ->to($this->getUser()->getEmail())
-
                 ->subject('Nouveau matériel ajouté')
                 ->htmlTemplate('email/new_material.html.twig');
-                -
-            $mailer->send($email);
+                $mailer->send($email);
 
             return $this->redirectToRoute('app_association_index', ['id' => $material->getAsso()->getId()], Response::HTTP_SEE_OTHER);
         }
