@@ -4,56 +4,51 @@
 
 {% block body %}
     <div class="overflow-hidden mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div class="px-4 py-5 sm:px-6">
-            <h1 class="text-lg font-medium leading-6 text-gray-900">Profil de votre Association</h1>
-        </div>
         {% if associations.id == app.user.asso.id %}
+            <div class="px-4 py-5 sm:px-6">
+                <h1 class="text-lg font-medium leading-6 text-gray-900">Profil de votre Association</h1>
+            </div>
             <div class="text-center">
                 <h1 class="text-lg font-medium leading-6 text-gray-900"> {{ associations.associationName }}</h1>
             </div>
-            {% if associations.id == app.user.asso.id %}
-                <div class="text-center">
-                    <h1 class="text-lg font-medium leading-6 text-gray-900"> {{ associations.associationName }}</h1>
+            <div class="relative flex flex-1 items-center justify-start pb-16">
+                <div class="w-52 h-52 rounded-full overflow-hidden border-2 dark:border-white border-gray-900">
+                    <img src="{{ asset('uploads/images/' ~ associations.associationImg) }}" alt=""
+                         class="w-full h-full object-cover">
                 </div>
-                <div class="relative flex flex-1 items-center justify-start pb-16">
-                    <div class="w-52 h-52 rounded-full overflow-hidden border-2 dark:border-white border-gray-900">
-                        <img src="{{ asset('uploads/images/' ~ associations.associationImg) }}" alt=""
-                             class="w-full h-full object-cover">
-                    </div>
-                    <div class="flex flex-col ml-28">
-                        <div class="mb-6 justify-center items-center flex flex-row gap-6">
-                            <div>
-                                <div class="justify-center align-middle mt-2 appearance-none text-slate-900 bg-white rounded-md block w-full px-3 h-10 shadow-sm sm:text-sm focus:outline-none placeholder:text-slate-400 focus:ring-2 focus:ring-sky-500 ring-1 ring-slate-200">
-                                    <p class="text-center">
-                                        {{ associations.associationName }}
-                                    </p>
-                                </div>
-                                <div class="justify-center align-middle mt-2 appearance-none text-slate-900 bg-white rounded-md block w-full px-3 h-10 shadow-sm sm:text-sm focus:outline-none placeholder:text-slate-400 focus:ring-2 focus:ring-sky-500 ring-1 ring-slate-200">
-                                    <p class="text-center">
-                                        {{ associations.associationAddress ~ ', ' ~ associations.associationZipCode ~ ' ' ~ associations.associationCity }}
-                                    </p>
-                                </div>
+                <div class="flex flex-col ml-28">
+                    <div class="mb-6 justify-center items-center flex flex-row gap-6">
+                        <div>
+                            <div class="justify-center align-middle mt-2 appearance-none text-slate-900 bg-white rounded-md block w-full px-3 h-10 shadow-sm sm:text-sm focus:outline-none placeholder:text-slate-400 focus:ring-2 focus:ring-sky-500 ring-1 ring-slate-200">
+                                <p class="text-center">
+                                    {{ associations.associationName }}
+                                </p>
                             </div>
-                            <div>
-                                <div class="justify-center align-middle mt-2 appearance-none text-slate-900 bg-white rounded-md block w-full px-3 h-10 shadow-sm sm:text-sm focus:outline-none placeholder:text-slate-400 focus:ring-2 focus:ring-sky-500 ring-1 ring-slate-200">
-                                    <p class="text-center">
-                                        {{ associations.associationPhone }}
-                                    </p>
-                                </div>
-                                <div class="justify-center align-middle mt-2 appearance-none text-slate-900 bg-white rounded-md block w-full px-3 h-10 shadow-sm sm:text-sm focus:outline-none placeholder:text-slate-400 focus:ring-2 focus:ring-sky-500 ring-1 ring-slate-200">
-                                    <a href="{{ associations.associationWebsite }}" target="_blank" class="text-center">
-                                        {{ associations.associationWebsite }}
-                                    </a>
-                                </div>
+                            <div class="justify-center align-middle mt-2 appearance-none text-slate-900 bg-white rounded-md block w-full px-3 h-10 shadow-sm sm:text-sm focus:outline-none placeholder:text-slate-400 focus:ring-2 focus:ring-sky-500 ring-1 ring-slate-200">
+                                <p class="text-center">
+                                    {{ associations.associationAddress ~ ', ' ~ associations.associationZipCode ~ ' ' ~ associations.associationCity }}
+                                </p>
                             </div>
                         </div>
                         <div>
-                            <a href="{{ path('app_association_edit', {'id': associations.id}) }}" class="inline-block rounded-md border border-transparent py-2 px-4 text-base font-medium text-white hover:bg-opacity-75" style="background-color: #fb4e17;align-self: center;">Modifier</a>
+                            <div class="justify-center align-middle mt-2 appearance-none text-slate-900 bg-white rounded-md block w-full px-3 h-10 shadow-sm sm:text-sm focus:outline-none placeholder:text-slate-400 focus:ring-2 focus:ring-sky-500 ring-1 ring-slate-200">
+                                <p class="text-center">
+                                    {{ associations.associationPhone }}
+                                </p>
+                            </div>
+                            <div class="justify-center align-middle mt-2 appearance-none text-slate-900 bg-white rounded-md block w-full px-3 h-10 shadow-sm sm:text-sm focus:outline-none placeholder:text-slate-400 focus:ring-2 focus:ring-sky-500 ring-1 ring-slate-200">
+                                <a href="{{ associations.associationWebsite }}" target="_blank" class="text-center">
+                                    {{ associations.associationWebsite }}
+                                </a>
+                            </div>
                         </div>
-                        
                     </div>
+                    <div>
+                        <a href="{{ path('app_association_edit', {'id': associations.id}) }}" class="inline-block rounded-md border border-transparent py-2 px-4 text-base font-medium text-white hover:bg-opacity-75" style="background-color: #fb4e17;align-self: center;">Modifier</a>
+                    </div>
+
                 </div>
-            {% endif %}
+            </div>
         {% endif %}
         <div class="flex flex-wrap gap-3 mt-32">
             {% for material in materials %}
