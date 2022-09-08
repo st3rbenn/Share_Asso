@@ -52,8 +52,8 @@ class UserController extends AbstractController
 
             $message = (new TemplatedEmail())
                 ->from(new Address('test@example.com'))
-                //->to($user->getEmail())
                 ->to($user->getEmail())
+               // ->to($this->getUser()->getEmail())
                 ->subject('Bienvenue sur le site de Share Asso')
                 ->htmlTemplate('email/register.html.twig')
                 ->context([
